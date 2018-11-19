@@ -1,7 +1,9 @@
-const { hashPassword } = require('@feathersjs/authentication-local').hooks;
-const { restrictToOwner } = require('feathers-authentication-hooks');
-const { protect } = require('@feathersjs/authentication-local').hooks;
 const { authenticate } = require('@feathersjs/authentication').hooks;
+const { restrictToOwner } = require('feathers-authentication-hooks');
+
+const {
+  hashPassword, protect
+} = require('@feathersjs/authentication-local').hooks;
 
 const restrict = [
   authenticate('jwt'),
@@ -17,13 +19,17 @@ module.exports = {
     find: [ authenticate('jwt') ],
     get: [ ...restrict ],
     create: [ hashPassword() ],
-    update: [ ...restrict, hashPassword() ],
-    patch: [ ...restrict, hashPassword() ],
+    update: [ hashPassword(),  ...restrict ],
+    patch: [ hashPassword(),  ...restrict ],
     remove: [ ...restrict ]
   },
 
   after: {
-    all: [ protect('password') ],
+    all: [
+      // Make sure the password field is never sent to the client
+      // Always must be the last hook
+      protect('password')
+    ],
     find: [],
     get: [],
     create: [],

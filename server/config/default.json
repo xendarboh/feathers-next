@@ -7,7 +7,7 @@
     "max": 50
   },
   "authentication": {
-    "secret": "28170cbaad6cde47d69352b2be4610e3264885309fcf177ebda7f1fb5cb19225b76ee4908c7890bc0bd29548acbf39ebbe493aafe666ac5ad9a859495c9e369b6bc9626057cc51b57893fdf03b8a769a19fb26bf30f251a101f828423e8572f43bd5e23c47fe453ce6f7c84090762f913827d14e2fa747ea3c2bafa1a59aaa4e0fad7636bf0617748e101c165b3f7dbd774329a172b24acc4a9ef16e40b6efba5e5e864721cbb0b78cb9a5c671a46e92dcd8d571b5919338afb4c71c5c11d8dad6163f53fccd934bdf8aa3114e109790c3115fc1c32803555a93e1f2f9336a758547d7b2df1941f2447892e0408c8eccd911083c5a523c296e748ae5a4a68a72",
+    "secret": "08faa5d1194660cd34412897caf8cc344817dcf0c69a52fe4c5ef0b5d59a07c9fa150a5ee8f8c868c82e3e9058fb95c7e3aa64475be07cde3f7b57402a47952e558e49f38a407c32c96fc1896bc210f7b7fcc752332c1decba8261c979bda9347c5fffc025ccc2c3f1fc1a273a071fca5de206bb2da58c7c663a9c57533c1e733946e7e69112523e51d4bc27436a017bd659811553944032f017318f4f0070accf29369c2474aba2702a9db05322024d1b6581e19bf8b1911fec256fe69ae24fa39a56708d87eb6ce652aed576c88f5ab41da26da6088b94fbe92ad9f54f1c9bc8f4f3354acf036ab69739b4f2304c4b2a0e72d42639382ebaf1ad6ec601e5d4",
     "strategies": [
       "jwt",
       "local"
@@ -16,7 +16,7 @@
     "service": "users",
     "jwt": {
       "header": {
-        "type": "access"
+        "typ": "access"
       },
       "audience": "https://yourdomain.com",
       "subject": "anonymous",
@@ -28,17 +28,6 @@
       "entity": "user",
       "usernameField": "email",
       "passwordField": "password"
-    },
-    "github": {
-      "clientID": "your github client id",
-      "clientSecret": "your github client secret",
-      "successRedirect": "/"
-    },
-    "cookie": {
-      "enabled": false,
-      "name": "feathers-jwt",
-      "httpOnly": false,
-      "secure": false
     }
   },
   "nedb": "../data"
