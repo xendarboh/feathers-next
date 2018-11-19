@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import withRedux from 'next-redux-wrapper'
-import { initStore, login } from '../store'
+import { connect } from 'react-redux'
+import { login } from '../store'
 import AuthForm from '../components/authForm'
 
 class Login extends Component {
@@ -26,7 +26,7 @@ class Login extends Component {
     }
     dispatch(login(payload))
       .catch(err => {
-        console.log('Login failed: ', err)        
+        console.log('Login failed: ', err)
         this.setState({errorMessage: err.message})
       })
   }
@@ -43,4 +43,4 @@ class Login extends Component {
   }
 }
 
-export default withRedux(initStore)(Login)
+export default connect()(Login)

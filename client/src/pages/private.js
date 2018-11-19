@@ -1,8 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
-import withRedux from 'next-redux-wrapper'
 import { compose } from 'redux'
-import { initStore } from '../store'
+import { connect } from 'react-redux'
 import withAuth from '../components/withAuth'
 import client from '../api/client'
 
@@ -41,6 +40,6 @@ const mapStateToProps = (state) => {
 }
 
 export default compose(
-  withRedux(initStore, mapStateToProps),
+  connect(mapStateToProps),
   withAuth()
 )(Private)

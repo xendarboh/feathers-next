@@ -1,8 +1,8 @@
 import React from 'react'
 import Link from 'next/link'
-import withRedux from 'next-redux-wrapper'
 import { compose } from 'redux'
-import { initStore, logout } from '../store'
+import { connect } from 'react-redux'
+import { logout } from '../store'
 import withAuth, { PUBLIC } from '../components/withAuth'
 
 class Index extends React.Component {
@@ -15,7 +15,7 @@ class Index extends React.Component {
   render () {
     const { user } = this.props
     const name = user ? `${user.email}` : 'Anonymous'
-    
+
     return (
       <div>
         <h1>Hello {name}!</h1>
@@ -35,13 +35,13 @@ class Index extends React.Component {
                 <Link href='/login'>
                   <a>Login</a>
                 </Link>
-              </div>  
-              <div>  
+              </div>
+              <div>
                 <Link href='/register'>
                   <a>Register</a>
                 </Link>
-              </div>  
-            </div>  
+              </div>
+            </div>
           : <a href='/logout' onClick={this.handleLogout}>Logout</a> }
       </div>
     )
@@ -55,6 +55,6 @@ const mapStateToProps = (state) => {
 }
 
 export default compose(
-  withRedux(initStore, mapStateToProps),
+  connect(mapStateToProps),
   withAuth(PUBLIC)
 )(Index)

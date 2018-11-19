@@ -9,12 +9,12 @@ export const PUBLIC = 'PUBLIC'
 /**
  * Higher order component for Next.js `pages` components.
  *
- * NOTE: depends of redux store. So you must use the `withRedux` HOC before this one.
+ * NOTE: depends of redux store. So you must use the `connect` HOC before this one.
  *
  * Example:
  *
  * ```
- * export default withRedux(initStore, mapStateToProps)(
+ * export default connect(mapStateToProps)(
  *   withAuth(PUBLIC)(MyPage)
  * )
  * ```
@@ -23,7 +23,7 @@ export const PUBLIC = 'PUBLIC'
  *
  * ```
  * export default compose(
- *   withRedux(initStore, mapStateToProps),
+ *   connect(mapStateToProps),
  *   withAuth()
  * )(Private)
  * ```
@@ -69,7 +69,7 @@ export default (permission = null) => ChildComponent => class withAuth extends C
     if (isServer) {
       // Authenticate, happens on page first load
 
-      const jwtFromCookie = getServerCookie(req, FEATHERS_COOKIE)      
+      const jwtFromCookie = getServerCookie(req, FEATHERS_COOKIE)
       const result = await store.dispatch(authenticate(jwtFromCookie))
 
       const newJwt = result.auth.jwt
@@ -80,7 +80,7 @@ export default (permission = null) => ChildComponent => class withAuth extends C
         clearServerCookie(res, FEATHERS_COOKIE)
       }
 
-    // client side - check if the Feathers API client is already authenticated  
+    // client side - check if the Feathers API client is already authenticated
     } else {
 
       if (!apiClient.authenticated) {

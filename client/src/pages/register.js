@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import withRedux from 'next-redux-wrapper'
-import { initStore, register } from '../store'
+import { connect } from 'react-redux'
+import { register } from '../store'
 import AuthForm from '../components/authForm'
 
 class Register extends Component {
@@ -26,7 +26,7 @@ class Register extends Component {
     }
     dispatch(register(payload))
       .catch(err => {
-        console.log('Register failed: ', err)        
+        console.log('Register failed: ', err)
         this.setState({errorMessage: err.message})
       })
   }
@@ -43,4 +43,4 @@ class Register extends Component {
   }
 }
 
-export default withRedux(initStore)(Register)
+export default connect()(Register)
