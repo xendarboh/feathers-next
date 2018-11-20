@@ -108,11 +108,4 @@ $RECYCLE.BIN/
 *.lnk
 
 # Others
-lib/
-data/
-.vscode/
-.idea/
-.history/
 .next/
-client/.gitignore
-

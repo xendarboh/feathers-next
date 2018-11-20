@@ -3,11 +3,7 @@ const next = require('next')
 
 const dev = process.env.NODE_ENV !== 'production'
 
-// Property "dir: './src'": see https://github.com/zeit/next.js/issues/819#issuecomment-308098780
-const app = next({
-  dir: './src',
-  dev
-})
+const app = next({ dev })
 
 const handle = app.getRequestHandler()
 

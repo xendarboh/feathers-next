@@ -4,38 +4,49 @@ This project shows how to integrate a [Next.js](https://github.com/zeit/next.js)
 
 ## About
 
+Original project: https://github.com/leob/feathers-next
+
 The project was inspired by [feathers-next-example](https://github.com/Albert-Gao/feathers-next-example)
 and by [this](https://github.com/hugotox/next.js/tree/canary/examples/with-cookie-auth-redux) example for the authentication part.
 
-Contrary to [feathers-next-example](https://github.com/Albert-Gao/feathers-next-example), I decided to keep the Feathers backend (the API) separated from the "server" (SSR) part of the Next.js frontend. This means that we're running two separate server (node.js) processes.
+Contrary to [feathers-next-example](https://github.com/Albert-Gao/feathers-next-example), the Feathers backend (the API) is separated from the "server" (SSR UI) part of the Next.js frontend. This means that we're running two separate server (node.js) processes.
 
-This might add a (tiny) bit of overhead, but ultimately it makes the app easier to develop and maintain (and configure) because we don't mingle Feathers API backend code with Next.js server rendering code.
+Ultimately it makes the app easier to develop, maintain, configure since we can use the
+[Feathers Generator](https://www.npmjs.com/package/@feathersjs/cli)
+(or [Feathers+ Generator](https://www.npmjs.com/package/@feathers-plus/generator-feathers-plus))
+and don't mingle Feathers API backend code with Next.js server rendering code.
 
 ## Getting Started
 
-The repository contains both the backend (Feathers) and the frontend (Next.js), in two separate directories ```server``` and ```client```.
+The repository contains both the backend (Feathers) and the frontend (Next.js), in two separate directories ```feathers``` and ```next```.
 
-To install the app (backend and frontend), open a terminal and issue the following commands:
+To install the app (backend and frontend), issue the following commands:
 
 ```
-# Clone the repo: 
-git clone https://github.com/leob/feathers-next
-# Install and run the server part:
-cd server
-npm install
-npm run start
-# Then in another terminal, install and run the client part:
-cd ..
-cd client
-npm install
-npm run dev
+# Install and run feathers:
+cd feathers
+
+npm install && npm run start
+or
+yarn install && yarn run start
+
+# Then in another terminal, install and run next.js:
+cd next
+
+npm install && npm run dev
+or
+yarn install && yarn run dev
+
 # The command above ("npm run dev") supports hot reload, and is perfect for developing.
 # For production however, be sure to do a "build" and "run" as follows:
-npm run build
-npm run run
+
+npm run build && npm run start
+or
+yarn run build && yarn run start
+
 # Click through the app both in 'development' and 'production' mode, and notice how the app is MUCH faster in production mode!
 ```
-To view the app, open your browser and go to `http://localhost:3000`.
+To view the app, open your browser and go to http://localhost:3000.
 You should see the home page containing Login and Register links.
 
 ## Using the app

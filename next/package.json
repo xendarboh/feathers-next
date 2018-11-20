@@ -1,13 +1,13 @@
 {
-  "name": "feathers-next-client",
+  "name": "feathers-next-ui",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node src/server.js",
-    "build": "next build src",
-    "start": "NODE_ENV=production node src/server.js"
+    "dev": "node server.js",
+    "build": "next build",
+    "start": "NODE_ENV=production node server.js"
   },
   "dependencies": {
     "@feathersjs/authentication-client": "^1.0.2",
