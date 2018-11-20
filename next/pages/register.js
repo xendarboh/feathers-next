@@ -1,46 +1,52 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { register } from '../store'
-import AuthForm from '../components/authForm'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { register } from '../store';
+import AuthForm from '../components/authForm';
 
 class Register extends Component {
-
   state = {
     username: '',
     password: '',
-    errorMessage: ''
-  }
+    errorMessage: '',
+  };
 
-  handleOnChange = (e) => {
+  handleOnChange = e => {
     this.setState({
-      [e.target.name]: e.target.value
-    })
-  }
+      [e.target.name]: e.target.value,
+    });
+  };
 
-  handleRegisterSubmit = (e) => {
-    e.preventDefault()
-    const { dispatch } = this.props
+  handleRegisterSubmit = e => {
+    e.preventDefault();
+    const { dispatch } = this.props;
     const payload = {
       username: this.state.username,
-      password: this.state.password
-    }
-    dispatch(register(payload))
-      .catch(err => {
-        console.log('Register failed: ', err)
-        this.setState({errorMessage: err.message})
-      })
-  }
+      password: this.state.password,
+    };
+    dispatch(register(payload)).catch(err => {
+      console.log('Register failed: ', err);
+      this.setState({ errorMessage: err.message });
+    });
+  };
 
-  render () {
-    const {username, password, errorMessage} = this.state;
+  render() {
+    const { username, password, errorMessage } = this.state;
 
     return (
       <div>
         Register please:
-        <AuthForm {...{username, password, errorMessage, onChange: this.handleOnChange, onSubmit: this.handleRegisterSubmit}} />
+        <AuthForm
+          {...{
+            username,
+            password,
+            errorMessage,
+            onChange: this.handleOnChange,
+            onSubmit: this.handleRegisterSubmit,
+          }}
+        />
       </div>
-    )
+    );
   }
 }
 
-export default connect()(Register)
+export default connect()(Register);

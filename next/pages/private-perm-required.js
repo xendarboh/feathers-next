@@ -1,14 +1,13 @@
-import React from 'react'
-import Link from 'next/link'
-import { compose } from 'redux'
-import { connect } from 'react-redux'
-import withAuth from '../components/withAuth'
+import React from 'react';
+import Link from 'next/link';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import withAuth from '../components/withAuth';
 
 class PrivatePermRequired extends React.Component {
-
-  render () {
-    const { user } = this.props
-    const name = user ? `${user.email}` : 'Anonymous'
+  render() {
+    const { user } = this.props;
+    const name = user ? `${user.email}` : 'Anonymous';
 
     return (
       <div>
@@ -17,22 +16,22 @@ class PrivatePermRequired extends React.Component {
           <p>This content is for "admin" users only.</p>
         </div>
         <div>
-          <Link href='/'>
+          <Link href="/">
             <a>Link to the home page</a>
           </Link>
         </div>
       </div>
-    )
+    );
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    user: state.auth.user
-  }
-}
+    user: state.auth.user,
+  };
+};
 
 export default compose(
   connect(mapStateToProps),
-  withAuth('admin')
-)(PrivatePermRequired)
+  withAuth('admin'),
+)(PrivatePermRequired);

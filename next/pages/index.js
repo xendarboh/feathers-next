@@ -1,60 +1,63 @@
-import React from 'react'
-import Link from 'next/link'
-import { compose } from 'redux'
-import { connect } from 'react-redux'
-import { logout } from '../store'
-import withAuth, { PUBLIC } from '../components/withAuth'
+import React from 'react';
+import Link from 'next/link';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { logout } from '../store';
+import withAuth, { PUBLIC } from '../components/withAuth';
 
 class Index extends React.Component {
+  handleLogout = e => {
+    e.preventDefault();
+    this.props.dispatch(logout());
+  };
 
-  handleLogout = (e) => {
-    e.preventDefault()
-    this.props.dispatch(logout())
-  }
-
-  render () {
-    const { user } = this.props
-    const name = user ? `${user.email}` : 'Anonymous'
+  render() {
+    const { user } = this.props;
+    const name = user ? `${user.email}` : 'Anonymous';
 
     return (
       <div>
         <h1>Hello {name}!</h1>
         <div>
-          <Link href='/private'>
+          <Link href="/private">
             <a>Link to a private page</a>
           </Link>
         </div>
         <div>
-          <Link href='/private-perm-required'>
+          <Link href="/private-perm-required">
             <a>Link to a private page with specific permission requirement</a>
           </Link>
         </div>
-        { user === null
-          ? <div>
-              <div>
-                <Link href='/login'>
-                  <a>Login</a>
-                </Link>
-              </div>
-              <div>
-                <Link href='/register'>
-                  <a>Register</a>
-                </Link>
-              </div>
+        {user === null ? (
+          <div>
+            <div>
+              <Link href="/login">
+                <a>Login</a>
+              </Link>
             </div>
-          : <a href='/logout' onClick={this.handleLogout}>Logout</a> }
+            <div>
+              <Link href="/register">
+                <a>Register</a>
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <a href="/logout" onClick={this.handleLogout}>
+            Logout
+          </a>
+        )}
       </div>
-    )
+    );
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    user: state.auth.user
-  }
-}
+    user: state.auth.user,
+  };
+};
 
 export default compose(
   connect(mapStateToProps),
-  withAuth(PUBLIC)
-)(Index)
+  withAuth(PUBLIC),
+)(Index);

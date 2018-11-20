@@ -1,9 +1,9 @@
 // pages/_app.js
-import React from "react";
-import { Provider } from "react-redux";
-import App, { Container } from "next/app";
-import withRedux from "next-redux-wrapper";
-import { initStore } from "../store";
+import React from 'react';
+import { Provider } from 'react-redux';
+import App, { Container } from 'next/app';
+import withRedux from 'next-redux-wrapper';
+import { initStore } from '../store';
 
 export default withRedux(initStore, { debug: true })(
   class MyApp extends App {
@@ -13,8 +13,8 @@ export default withRedux(initStore, { debug: true })(
           // Call page-level getInitialProps
           ...(Component.getInitialProps
             ? await Component.getInitialProps(ctx)
-            : {})
-        }
+            : {}),
+        },
       };
     }
 
@@ -28,5 +28,5 @@ export default withRedux(initStore, { debug: true })(
         </Container>
       );
     }
-  }
+  },
 );
