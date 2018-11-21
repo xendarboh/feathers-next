@@ -3,23 +3,31 @@ import Link from 'next/link';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import withAuth from '../components/withAuth';
-import client from '../api/client';
+import feathers from '../feathers';
 
 class Private extends React.Component {
-  static async getInitialProps(context) {
-    const counters = await client.service('counters').find();
-    return { counterCount: counters.length };
+  static async getInitialProps({ store }) {
+    try {
+      const counters = await store.dispatch(feathers.counters.find());
+      return { counterCount: counters.value.length };
+    } catch (err) {
+      return { errorMessage: err.name || err.message || '' };
+    }
   }
 
   render() {
-    const { user } = this.props;
+    const { counterCount, errorMessage, user } = this.props;
     const name = user ? `${user.email}` : 'Anonymous';
 
     return (
       <div>
         <div>
           <h1>Hello {name}!</h1>
-          <h2>You have {this.props.counterCount} counters.</h2>
+          {errorMessage ? (
+            <h2>Error: {errorMessage}</h2>
+          ) : (
+            <h2>You have {counterCount} counters.</h2>
+          )}
           <p>This content is available for logged in users only.</p>
         </div>
         <div>
@@ -32,13 +40,11 @@ class Private extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    user: state.auth.user,
-  };
-};
+const mapStateToProps = state => ({
+  user: state.auth.user,
+});
 
 export default compose(
-  connect(mapStateToProps),
   withAuth(),
+  connect(mapStateToProps),
 )(Private);

@@ -18,15 +18,17 @@ class Login extends Component {
 
   handleLoginSubmit = e => {
     e.preventDefault();
-    const { dispatch } = this.props;
-    const payload = {
-      username: this.state.username,
-      password: this.state.password,
-    };
-    dispatch(login(payload)).catch(err => {
-      console.log('Login failed: ', err);
-      this.setState({ errorMessage: err.message });
-    });
+    this.props
+      .dispatch(
+        login({
+          email: this.state.username,
+          password: this.state.password,
+        }),
+      )
+      .catch(err => {
+        console.log('Login Failed:', err);
+        this.setState({ errorMessage: err.message });
+      });
   };
 
   render() {

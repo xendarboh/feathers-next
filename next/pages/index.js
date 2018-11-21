@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { logout } from '../store';
-import withAuth, { PUBLIC } from '../components/withAuth';
+import withAuth from '../components/withAuth';
 
 class Index extends React.Component {
   handleLogout = e => {
@@ -28,7 +28,11 @@ class Index extends React.Component {
             <a>Link to a private page with specific permission requirement</a>
           </Link>
         </div>
-        {user === null ? (
+        {user ? (
+          <a href="/logout" onClick={this.handleLogout}>
+            Logout
+          </a>
+        ) : (
           <div>
             <div>
               <Link href="/login">
@@ -41,10 +45,6 @@ class Index extends React.Component {
               </Link>
             </div>
           </div>
-        ) : (
-          <a href="/logout" onClick={this.handleLogout}>
-            Logout
-          </a>
         )}
       </div>
     );
@@ -58,6 +58,6 @@ const mapStateToProps = state => {
 };
 
 export default compose(
+  withAuth({ selector: () => true }),
   connect(mapStateToProps),
-  withAuth(PUBLIC),
 )(Index);

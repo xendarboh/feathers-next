@@ -25,13 +25,15 @@ class PrivatePermRequired extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    user: state.auth.user,
-  };
-};
+const mapStateToProps = state => ({
+  user: state.auth.user,
+});
 
 export default compose(
+  withAuth({
+    hidden: true,
+    selector: state =>
+      state.auth.user !== null && state.auth.user.email === 'admin',
+  }),
   connect(mapStateToProps),
-  withAuth('admin'),
 )(PrivatePermRequired);

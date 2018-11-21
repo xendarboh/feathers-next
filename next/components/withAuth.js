@@ -1,153 +1,97 @@
-import React, { Component } from 'react';
-import Router from 'next/router';
-import {
-  authenticate,
-  FEATHERS_COOKIE,
-  getServerCookie,
-  setServerCookie,
-  clearServerCookie,
-} from '../store';
 import Error from 'next/error';
-import apiClient from '../api/client';
+import React from 'react';
+import Router from 'next/router';
+import feathers from '../feathers';
+import { authenticate, logout, FEATHERS_COOKIE } from '../store';
+import { connect } from 'react-redux';
+import { getCookie } from '../lib/session';
 
-export const PUBLIC = 'PUBLIC';
-
-/**
- * Higher order component for Next.js `pages` components.
- *
- * NOTE: depends of redux store. So you must use the `connect` HOC before this one.
- *
- * Example:
- *
- * ```
- * export default connect(mapStateToProps)(
- *   withAuth(PUBLIC)(MyPage)
- * )
- * ```
- *
- * Or using redux compose function:
- *
- * ```
- * export default compose(
- *   connect(mapStateToProps),
- *   withAuth()
- * )(Private)
- * ```
- *
- * It reads the user from the redux store or calls whoami API to verify current logged in user.
- *
- * To make a page public you have to pass PUBLIC as the `permission` parameter.
- * This is required to be able to show current logged in user from the first server render.
- *
- * @param permission: permission required to render this page. Use PUBLIC to make the page public.
- * @returns function(ChildComponent) React component to be wrapped. Must be a `page` component.
+/*
+ * inspiration:
+ * - https://github.com/leob/feathers-next/blob/master/client/src/components/withAuth.js
+ * - https://mjrussell.github.io/redux-auth-wrapper/docs/API.html#connectedauthwrapper
+ * - [connected HoC](https://github.com/reduxjs/react-redux/issues/837#issuecomment-431237853)
  */
-export default (permission = null) => ChildComponent =>
-  class withAuth extends Component {
-    static redirectToLogin(context) {
-      const { isServer, req, res } = context;
 
-      if (isServer) {
-        res.writeHead(302, { Location: `/login?next=${req.originalUrl}` });
-        res.end();
-      } else {
-        Router.push(`/login?next=${context.asPath}`);
-      }
-    }
+const defaultArgs = {
+  AuthenticatingComponent: () => null, // don't render anything while authenticating
+  authenticatingSelector: state => state.auth.isLoading,
+  hidden: false, // redirect hidden pages to 404 rather than login
+  selector: state => state.auth.isSignedIn, // authenticatedSelector
+  wrapperDisplayName: 'withAuth',
+};
 
-    static userHasPermission(user) {
-      const userGroups = user.groups || [];
-      let userHasPerm = true;
-
-      // go here only if we have specific permission requirements
-      if (permission) {
-        // for instance if the permission is "admin" and the user name starts with admin
-        userHasPerm = user.email
-          .toLowerCase()
-          .startsWith(permission.toLowerCase());
-      }
-      return userHasPerm;
-    }
-
-    static async getInitialProps(context) {
-      // public page passes the permission `PUBLIC` to this function
-      const isPublicPage = permission == PUBLIC;
-      const { isServer, store, req, res } = context;
-
-      if (isServer) {
-        // Authenticate, happens on page first load
-
-        const jwtFromCookie = getServerCookie(req, FEATHERS_COOKIE);
-        const result = await store.dispatch(authenticate(jwtFromCookie));
-
-        const newJwt = result.auth.jwt;
-
-        if (newJwt) {
-          setServerCookie(res, FEATHERS_COOKIE, newJwt);
-        } else {
-          clearServerCookie(res, FEATHERS_COOKIE);
-        }
-
-        // client side - check if the Feathers API client is already authenticated
-      } else {
-        if (!apiClient.authenticated) {
-          console.log('Need to authenticate client-side');
-
-          // get the JWT (from cookie - set by previous login or server-side authentication) and use it to auth the API client
-          const jwt = store.getState().auth.jwt;
-          await store.dispatch(authenticate(jwt, true));
-
-          apiClient.authenticated = true;
-        }
-      }
-
-      return this.getInitProps(
-        context,
-        store.getState().auth.user,
-        isPublicPage,
-      );
-    }
-
-    static async getInitProps(context, user, isPublicPage) {
-      let proceedToPage = true;
-      let initProps = {};
-
-      if (user) {
-        // means the user is logged in so we verify permission
-        if (!isPublicPage) {
-          if (!this.userHasPermission(user)) {
-            proceedToPage = false;
-
-            // Show a 404 page (see using next.js' built-in Error page) - TODO does this also work server-side?
-            const statusCode = 404;
-            initProps = { statusCode };
-          }
-        }
-      } else {
-        // anonymous user
-        if (!isPublicPage) {
-          proceedToPage = false;
-
-          this.redirectToLogin(context);
-        }
-      }
-
-      if (
-        proceedToPage &&
-        typeof ChildComponent.getInitialProps === 'function'
-      ) {
-        initProps = await ChildComponent.getInitialProps(context);
-      }
-
-      return initProps;
-    }
-
-    render() {
-      // Use next's built-in error page
-      if (this.props.statusCode) {
-        return <Error statusCode={this.props.statusCode} />;
-      }
-
-      return <ChildComponent {...this.props} />;
-    }
+export default args => Component => {
+  const {
+    AuthenticatingComponent,
+    authenticatingSelector,
+    hidden,
+    selector,
+    wrapperDisplayName,
+  } = {
+    ...defaultArgs,
+    ...args,
   };
+
+  const displayName = Component.displayName || Component.name || 'Component';
+
+  const withAuth = () =>
+    class extends React.Component {
+      static displayName = `${wrapperDisplayName}(${displayName})`;
+
+      static redirectToLogin(ctx) {
+        const { isServer, req, res } = ctx;
+        if (isServer) {
+          res.writeHead(302, { Location: `/login?next=${req.originalUrl}` });
+          res.end();
+        } else {
+          Router.push(`/login?next=${ctx.asPath}`);
+        }
+      }
+
+      static async getInitialProps(ctx) {
+        const { isServer, store, req, res } = ctx;
+
+        // begin every server request unauthenticated because
+        // api connections will be re-used for different users/requests
+        if (isServer) await store.dispatch(feathers.auth.logout());
+
+        // authenticate server on every client request
+        // authenticate client only once
+        if (isServer || !feathers.authenticated) {
+          const accessToken = getCookie(FEATHERS_COOKIE, req);
+          await store.dispatch(authenticate({ accessToken, res }));
+          feathers.authenticated = true;
+        }
+
+        if (!selector(store.getState()))
+          return hidden ? { statusCode: 404 } : this.redirectToLogin(ctx);
+
+        return {
+          props: {
+            ...(Component.getInitialProps
+              ? await Component.getInitialProps(ctx)
+              : {}),
+          },
+        };
+      }
+
+      render() {
+        const { isAuthenticating, statusCode, props } = this.props;
+        if (statusCode) {
+          return <Error statusCode={statusCode} />;
+        } else if (isAuthenticating) {
+          return <AuthenticatingComponent />;
+        } else {
+          return <Component {...props} />;
+        }
+      }
+    };
+
+  const mapStateToProps = state => ({
+    // isAuthenticated: selector(state),
+    isAuthenticating: authenticatingSelector(state),
+  });
+
+  return connect(mapStateToProps)(withAuth());
+};

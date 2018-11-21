@@ -18,15 +18,17 @@ class Register extends Component {
 
   handleRegisterSubmit = e => {
     e.preventDefault();
-    const { dispatch } = this.props;
-    const payload = {
-      username: this.state.username,
-      password: this.state.password,
-    };
-    dispatch(register(payload)).catch(err => {
-      console.log('Register failed: ', err);
-      this.setState({ errorMessage: err.message });
-    });
+    this.props
+      .dispatch(
+        register({
+          email: this.state.username,
+          password: this.state.password,
+        }),
+      )
+      .catch(err => {
+        console.log('Register Failed:', err);
+        this.setState({ errorMessage: err.message });
+      });
   };
 
   render() {
