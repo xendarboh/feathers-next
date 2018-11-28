@@ -1,6 +1,6 @@
 # feathers-next
 
-This project shows how to integrate a [Next.js](https://github.com/zeit/next.js) application with a [Feathers](http://feathersjs.com) backend, including authentication (with user name/password) and Redux.
+This project shows a way to integrate a [Next.js](https://github.com/zeit/next.js) application with a [Feathers](http://feathersjs.com) backend, including authentication (with user name/password) and Redux.
 
 ## About
 
@@ -9,29 +9,29 @@ Original project: https://github.com/leob/feathers-next
 The project was inspired by [feathers-next-example](https://github.com/Albert-Gao/feathers-next-example)
 and by [this](https://github.com/hugotox/next.js/tree/canary/examples/with-cookie-auth-redux) example for the authentication part.
 
-Contrary to [feathers-next-example](https://github.com/Albert-Gao/feathers-next-example), the Feathers backend (the API) is separated from the "server" (SSR UI) part of the Next.js frontend. This means that we're running two separate server (node.js) processes.
+Contrary to [feathers-next-example](https://github.com/Albert-Gao/feathers-next-example), the Feathers backend (API) is separated from the Next.js frontend (SSR UI). This means that we're running two separate server (node.js) processes.
 
-Ultimately it makes the app easier to develop, maintain, configure since we can use the
+It makes the app easier to develop, maintain, configure since we can use the
 [Feathers Generator](https://www.npmjs.com/package/@feathersjs/cli)
 (or [Feathers+ Generator](https://www.npmjs.com/package/@feathers-plus/generator-feathers-plus))
-and don't mingle Feathers API backend code with Next.js server rendering code.
+without mingling Feathers API backend code with Next.js server rendering code.
 
 ## Getting Started
 
-The repository contains both the backend (Feathers) and the frontend (Next.js), in two separate directories ```feathers``` and ```next```.
+The repository contains both the API backend and the UI frontend, in two separate directories `api` and `ui`.
 
 To install the app (backend and frontend), issue the following commands:
 
 ```
 # Install and run feathers:
-cd feathers
+cd api
 
 npm install && npm run start
 or
 yarn install && yarn run start
 
 # Then in another terminal, install and run next.js:
-cd next
+cd ui
 
 npm install && npm run dev
 or
