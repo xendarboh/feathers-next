@@ -1,3 +1,5 @@
+
+const assert = require('assert');
 const rp = require('request-promise');
 const url = require('url');
 const app = require('../src/app');
@@ -10,47 +12,49 @@ const getUrl = pathname => url.format({
   pathname
 });
 
-describe('Feathers application tests (with jest)', () => {
-  beforeAll(done => {
-    this.server = app.listen(port);
-    this.server.once('listening', () => done());
+describe('Feathers application tests', () => {
+  let server;
+
+  before(function (done) {
+    server = app.listen(port);
+    server.once('listening', () => {
+      setTimeout(() => done(), 500);
+    });
   });
 
-  afterAll(done => {
-    this.server.close(done);
+  after(function (done) {
+    server.close();
+    setTimeout(() => done(), 500);
   });
 
   it('starts and shows the index page', () => {
-    expect.assertions(1);
-    return rp(getUrl()).then(
-      body => expect(body.indexOf('<html>')).not.toBe(-1)
+    return rp(getUrl()).then(body =>
+      assert.ok(body.indexOf('<html>') !== -1, 'response does not contain <html>')
     );
   });
 
-  describe('404', () => {
+  describe('404', function () {
     it('shows a 404 HTML page', () => {
-      expect.assertions(2);
       return rp({
         url: getUrl('path/to/nowhere'),
         headers: {
-          'Accept': 'text/html'
+          Accept: 'text/html'
         }
       }).catch(res => {
-        expect(res.statusCode).toBe(404);
-        expect(res.error.indexOf('<html>')).not.toBe(-1);
+        assert.strictEqual(res.statusCode, 404, 'unexpected statusCode');
+        assert.ok(res.error.indexOf('<html>') !== -1, 'error does not contain <html>');
       });
     });
 
     it('shows a 404 JSON error without stack trace', () => {
-      expect.assertions(4);
       return rp({
         url: getUrl('path/to/nowhere'),
         json: true
       }).catch(res => {
-        expect(res.statusCode).toBe(404);
-        expect(res.error.code).toBe(404);
-        expect(res.error.message).toBe('Page not found');
-        expect(res.error.name).toBe('NotFound');
+        assert.strictEqual(res.statusCode, 404, 'unexpected statusCode');
+        assert.strictEqual(res.error.code, 404, 'unexpected error.code');
+        assert.strictEqual(res.error.message, 'Page not found', 'unexpected error.message');
+        assert.strictEqual(res.error.name, 'NotFound', 'unexpected error.name');
       });
     });
   });

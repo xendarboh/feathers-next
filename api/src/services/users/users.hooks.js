@@ -1,44 +1,56 @@
+
+// Hooks for service `users`. (Can be re-generated.)
+const commonHooks = require('feathers-hooks-common');
 const { authenticate } = require('@feathersjs/authentication').hooks;
-const { restrictToOwner } = require('feathers-authentication-hooks');
+// eslint-disable-next-line no-unused-vars
+const { hashPassword, protect } = require('@feathersjs/authentication-local').hooks;
+// !code: imports // !end
 
-const {
-  hashPassword, protect
-} = require('@feathersjs/authentication-local').hooks;
+// !<DEFAULT> code: used
+// eslint-disable-next-line no-unused-vars
+const { iff } = commonHooks;
+// eslint-disable-next-line no-unused-vars
+const { create, update, patch, validateCreate, validateUpdate, validatePatch } = require('./users.validate');
+// !end
 
-const restrict = [
-  authenticate('jwt'),
-  restrictToOwner({
-    idField: '_id',
-    ownerField: '_id'
-  })
-];
+// !code: init // !end
 
-module.exports = {
+let moduleExports = {
   before: {
+    // Your hooks should include:
+    //   find  : authenticate('jwt')
+    //   get   : authenticate('jwt')
+    //   create: hashPassword()
+    //   update: hashPassword(), authenticate('jwt')
+    //   patch : hashPassword(), authenticate('jwt')
+    //   remove: authenticate('jwt')
+    // !<DEFAULT> code: before
     all: [],
     find: [ authenticate('jwt') ],
-    get: [ ...restrict ],
+    get: [ authenticate('jwt') ],
     create: [ hashPassword() ],
-    update: [ hashPassword(),  ...restrict ],
-    patch: [ hashPassword(),  ...restrict ],
-    remove: [ ...restrict ]
+    update: [ hashPassword(), authenticate('jwt') ],
+    patch: [ hashPassword(), authenticate('jwt') ],
+    remove: [ authenticate('jwt') ]
+    // !end
   },
 
   after: {
-    all: [
-      // Make sure the password field is never sent to the client
-      // Always must be the last hook
-      protect('password')
-    ],
+    // Your hooks should include:
+    //   all   : protect('password') /* Must always be the last hook */
+    // !<DEFAULT> code: after
+    all: [ protect('password') /* Must always be the last hook */ ],
     find: [],
     get: [],
     create: [],
     update: [],
     patch: [],
     remove: []
+    // !end
   },
 
   error: {
+    // !<DEFAULT> code: error
     all: [],
     find: [],
     get: [],
@@ -46,5 +58,13 @@ module.exports = {
     update: [],
     patch: [],
     remove: []
-  }
+    // !end
+  },
+  // !code: moduleExports // !end
 };
+
+// !code: exports // !end
+module.exports = moduleExports;
+
+// !code: funcs // !end
+// !code: end // !end
