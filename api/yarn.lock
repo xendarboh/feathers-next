@@ -32,12 +32,12 @@
     glob "7.1.2"
 
 "@feathers-plus/cli@^0.7.69":
-  version "0.7.69"
-  resolved "https://registry.yarnpkg.com/@feathers-plus/cli/-/cli-0.7.69.tgz#573b459ad415366b40db23caa5fdcf19dc563d11"
-  integrity sha512-MGkO0rxGqUntPojv0DWhK5W9TAis2J6zFqOmd5JefQbWzFBAHp3xKKX+uQ4GJzGTC0qmMGzmCwpZRKDIOePQYA==
+  version "0.7.70"
+  resolved "https://registry.yarnpkg.com/@feathers-plus/cli/-/cli-0.7.70.tgz#e2fff3b316d9023fd98e0384c88edb51bee19442"
+  integrity sha512-MR2sDs7t2DnZx2ndf3Ry8837t1NzA2AuHAGR1bk5ynZWGINflOR+cBGK6i3eaC8d+1MAZa08lj69ZQfS5RpvOw==
   dependencies:
     "@feathers-plus/cli-audit" "^0.0.10"
-    "@feathers-plus/generator-feathers-plus" "0.6.67"
+    "@feathers-plus/generator-feathers-plus" "0.6.68"
     chalk "2.3.0"
     clear "0.0.1"
     clui "0.3.6"
@@ -55,10 +55,10 @@
     short-hash "1.0.0"
     sort-keys "2.0.0"
 
-"@feathers-plus/generator-feathers-plus@0.6.67":
-  version "0.6.67"
-  resolved "https://registry.yarnpkg.com/@feathers-plus/generator-feathers-plus/-/generator-feathers-plus-0.6.67.tgz#6cb4f2999ef22029a506431acee3c66af063233b"
-  integrity sha512-pQaTfl7VXFKnuxbsbgwifcglpL7ppjvczn85bfOpNFZv+NEhffGYndv7QyUx7HBPBpYtbgz6OzEm1Jrv4ygBeA==
+"@feathers-plus/generator-feathers-plus@0.6.68":
+  version "0.6.68"
+  resolved "https://registry.yarnpkg.com/@feathers-plus/generator-feathers-plus/-/generator-feathers-plus-0.6.68.tgz#7f0654f58387a73d4a7b7ecbc30e174bef10d451"
+  integrity sha512-po+da0ofN0yye5Tgbf9KNAz649zN2Y9GEAdAZFJEq62vU7vVLfzApV4+/14Uj6mV9yB9ikxnsiyuWdNK1Ik+WA==
   dependencies:
     "@feathers-plus/common" "0.1.0"
     "@feathersjs/tools" "0.1.7"
@@ -103,7 +103,7 @@
     lodash.pick "^4.4.0"
     passport-jwt "^4.0.0"
 
-"@feathersjs/authentication-local@^1.2.1":
+"@feathersjs/authentication-local@^1.0.4", "@feathersjs/authentication-local@^1.2.1":
   version "1.2.7"
   resolved "https://registry.yarnpkg.com/@feathersjs/authentication-local/-/authentication-local-1.2.7.tgz#3dc112fd05d0994073a252ebbdf3fb8d7358612b"
   integrity sha512-6QNzA3cpJq53yt9QdskNwvBkEwDrUHsHHKpAHK3BxrHuxqVLVr7LbUbtf2kDot6YjbUi3SC2RDGMl/zapSCVcw==
@@ -156,7 +156,7 @@
     config "^2.0.0"
     debug "^4.0.0"
 
-"@feathersjs/errors@^3.0.0", "@feathersjs/errors@^3.2.0", "@feathersjs/errors@^3.3.0", "@feathersjs/errors@^3.3.4":
+"@feathersjs/errors@^3.0.0", "@feathersjs/errors@^3.2.0", "@feathersjs/errors@^3.2.1", "@feathersjs/errors@^3.3.0", "@feathersjs/errors@^3.3.4":
   version "3.3.4"
   resolved "https://registry.yarnpkg.com/@feathersjs/errors/-/errors-3.3.4.tgz#7dd591626ba57d1e8074464235b4d23906833ca7"
   integrity sha512-yA/HXSWgLiK4ngFslCHxcvnt+gek4fUhJcwpix9Z1jpTnCWW5WqtNxUfUqE1Fj8wKq0Y6VPSaQtE+RZcgryDQQ==
@@ -2005,7 +2005,7 @@ debug@3.1.0, debug@=3.1.0, debug@~3.1.0:
   dependencies:
     ms "2.0.0"
 
-debug@^3.1.0:
+debug@^3.0.0, debug@^3.1.0:
   version "3.2.6"
   resolved "https://registry.yarnpkg.com/debug/-/debug-3.2.6.tgz#e83d17de16d8a7efb7717edbe5fb10135eee629b"
   integrity sha512-mel+jf7nrtEl5Pn1Qx46zARXKDpBbvzezse7p7LqINmdoIk8PYP5SySaxEmYv6TZ0JyEKA1hsCId6DIhgITtWQ==
@@ -2725,7 +2725,18 @@ fast-safe-stringify@^2.0.4:
   resolved "https://registry.yarnpkg.com/fast-safe-stringify/-/fast-safe-stringify-2.0.6.tgz#04b26106cc56681f51a044cfc0d76cf0008ac2c2"
   integrity sha512-q8BZ89jjc+mz08rSxROs8VsrBBcn1SIw1kq9NjolL509tkABRk9io01RAjSaEv1Xb2uFLt8VtRiZbGp5H8iDtg==
 
-feathers-hooks-common@^4.16.3:
+feathers-authentication-management@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/feathers-authentication-management/-/feathers-authentication-management-2.0.1.tgz#502c1d544329d57b1934dfe2639d394c694ae2a7"
+  integrity sha512-MsCobz0oeyNkgUGEmiw7Cad9VdkYy3qDzGbmsVlBuaCc+290SWr9mOhkQBdGSEaO+xQxkyzBF9EEhJ7P4W1NYg==
+  dependencies:
+    "@feathersjs/authentication-local" "^1.0.4"
+    "@feathersjs/errors" "^3.2.1"
+    bcryptjs "^2.3.0"
+    debug "^3.0.0"
+    feathers-hooks-common "^4.14.1"
+
+feathers-hooks-common@^4.14.1, feathers-hooks-common@^4.16.3:
   version "4.19.2"
   resolved "https://registry.yarnpkg.com/feathers-hooks-common/-/feathers-hooks-common-4.19.2.tgz#5db3ffb51b870e7f1458a458b516b97f20834f7f"
   integrity sha512-/bSeKx7ymJHA+qHG3OZWC5RCHU+AGmeEzElrDNQFpW0of+yFaJie3DrgsDGMp63Kc8xyux87KmZgvjNWcnUz/Q==

@@ -3,7 +3,9 @@
     "ver": "1.0.0",
     "inspectConflicts": false,
     "semicolons": true,
-    "freeze": [],
+    "freeze": [
+      "src/services/auth-management/auth-management.service.js"
+    ],
     "ts": false
   },
   "app": {
@@ -40,6 +42,17 @@
       "isAuthEntity": false,
       "requiresAuth": true,
       "graphql": true
+    },
+    "authManagement": {
+      "name": "authManagement",
+      "nameSingular": "authManagement",
+      "subFolder": "",
+      "fileName": "auth-management",
+      "adapter": "generic",
+      "path": "/auth-management",
+      "isAuthEntity": false,
+      "requiresAuth": false,
+      "graphql": false
     }
   },
   "hooks": {},
