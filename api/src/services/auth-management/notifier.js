@@ -1,5 +1,4 @@
 /* eslint-disable indent, no-console */
-const isProd = process.env.NODE_ENV === 'production';
 const path = require('path');
 // const pug = require('pug');
 
@@ -14,14 +13,10 @@ const pug = {
 module.exports = app => {
   const returnEmail = app.get('complaint_email') || process.env.COMPLAINT_EMAIL;
 
-  const getLink = (type, hash) => {
-    var port = app.get('port') === '80' || isProd ? '' : ':' + app.get('port');
-    var host = app.get('host') === 'HOST' ? 'localhost' : app.get('host');
-    var protocol =
-      app.get('protocol') === 'PROTOCOL' ? 'http' : app.get('protocol');
-    protocol += '://';
-    return `${protocol}${host}${port}/login/${type}/${hash}`;
-  };
+  function getLink(type, hash) {
+    const url = 'http://localhost:3000/' + type + '?token=' + hash;
+    return url;
+  }
 
   const sendEmail = email => {
     console.log('TODO sendEmail():', email);
@@ -38,13 +33,13 @@ module.exports = app => {
 
   return (type, user, notifierOptions) => {
     console.log(
-      `-- Preparing email for ${type} with options:`,
+      `-- Preparing email of ${type} for user="${user.email}" with options:`,
       notifierOptions,
     );
     var hashLink;
     var email;
     var emailAccountTemplatesPath = path.join(
-      app.get('src'),
+      'somepath',
       'email-templates',
       'account',
     );
@@ -168,7 +163,7 @@ module.exports = app => {
         return sendEmail(email);
 
       case 'identityChange':
-        hashLink = getLink('verifyChanges', user.verifyToken);
+        hashLink = getLink('verify', user.verifyToken);
 
         templatePath = path.join(
           emailAccountTemplatesPath,

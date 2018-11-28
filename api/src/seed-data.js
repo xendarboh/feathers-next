@@ -3,6 +3,7 @@
 const { join } = require('path');
 const { readJsonFileSync } = require('@feathers-plus/test-utils');
 const config = require('../config/default.json');
+
 // !code: imports // !end
 
 // Determine if command line argument exists for seeding data

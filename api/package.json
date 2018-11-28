@@ -44,7 +44,7 @@
     "compression": "^1.7.3",
     "cors": "^2.8.4",
     "feathers-authentication-management": "^2.0.1",
-    "feathers-hooks-common": "^4.16.3",
+    "feathers-hooks-common": "^4.19.4",
     "feathers-nedb": "^3.1.0",
     "helmet": "^3.13.0",
     "lodash.merge": "^4.6.1",
@@ -53,7 +53,7 @@
     "winston": "^3.0.0"
   },
   "devDependencies": {
-    "@feathers-plus/cli": "^0.7.69",
+    "@feathers-plus/cli": "^0.7.71",
     "eslint": "^5.3.0",
     "mocha": "^5.2.0",
     "nodemon": "^1.18.3",

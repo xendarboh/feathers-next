@@ -4,10 +4,7 @@ const hooks = require('./auth-management.hooks');
 const authManagement = require('feathers-authentication-management');
 const notifier = require('./notifier');
 
-// reference:
-// - https://github.com/codingfriend1/Feathers-Vue/blob/feathers-2/server/services/auth-management/auth-management.service.js
-
-let moduleExports = function (app) {
+module.exports = function (app) {
   const authManagementOptions = {
     path: 'auth-management',
     notifier: notifier(app),
@@ -20,5 +17,3 @@ let moduleExports = function (app) {
 
   service.hooks(hooks);
 };
-
-module.exports = moduleExports;
