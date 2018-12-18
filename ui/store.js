@@ -20,6 +20,7 @@ export const initStore = (initialState = exampleInitialState) => {
   return createStore(
     combineReducers({
       auth: feathers.auth.reducer,
+      authManagement: feathers.authManagement.reducer,
       counters: feathers.counters.reducer,
       users: feathers.users.reducer,
     }),
@@ -62,8 +63,10 @@ export const logout = () => dispatch => {
 
 // register requires a catch()
 export const register = ({ email, password }) => dispatch =>
-  dispatch(feathers.users.create({ email, password })).then(() =>
-    dispatch(login({ email, password })),
+  dispatch(checkUnique({ email })).then(() =>
+    dispatch(feathers.users.create({ email, password })).then(() =>
+      dispatch(login({ email, password })),
+    ),
   );
 
 export const authenticate = ({ accessToken, res }) => dispatch =>
@@ -73,3 +76,30 @@ export const authenticate = ({ accessToken, res }) => dispatch =>
       setCookie(FEATHERS_COOKIE, accessToken, res),
     )
     .catch(() => removeCookie(FEATHERS_COOKIE, res));
+
+// requires a catch()
+export const verify = ({ token }) => dispatch =>
+  dispatch(
+    feathers.authManagement.create({
+      action: 'verifySignupLong',
+      value: token,
+    }),
+  );
+
+export const checkUnique = ({ email, ownId = null }) => dispatch =>
+  dispatch(
+    feathers.authManagement.create({
+      action: 'checkUnique',
+      value: { email },
+      ownId,
+      meta: { noErrMsg: false },
+    }),
+  );
+
+export const resendVerifySignup = ({ email }) => dispatch =>
+  dispatch(
+    feathers.authManagement.create({
+      action: 'resendVerifySignup',
+      value: { email },
+    }),
+  );

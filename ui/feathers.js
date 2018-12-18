@@ -16,7 +16,11 @@ const socket = io(API_ENDPOINT, { transports: ['websocket'], forceNew: true });
 // Feathers backend) manages the JWT via a cookie
 const authOptions = {};
 
-export const services = ['users', 'counters'];
+export const services = {
+  'auth-management': 'authManagement',
+  counter: 'counters',
+  users: 'users',
+};
 
 // TODO: https://github.com/eddyystop/feathers-starter-react-redux-login-roles/blob/master/client/feathers/index.js
 // Convenience method to get status of feathers services, incl feathers-authentication

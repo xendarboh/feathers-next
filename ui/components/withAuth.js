@@ -17,7 +17,8 @@ const defaultArgs = {
   AuthenticatingComponent: () => null, // don't render anything while authenticating
   authenticatingSelector: state => state.auth.isLoading,
   hidden: false, // redirect hidden pages to 404 rather than login
-  selector: state => state.auth.isSignedIn, // authenticatedSelector
+  // selector: state => state.auth.isSignedIn, // authenticatedSelector
+  selector: state => state.auth.user && state.auth.user.isVerified,
   wrapperDisplayName: 'withAuth',
 };
 

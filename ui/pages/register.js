@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { register } from '../store';
 import AuthForm from '../components/authForm';
 
-class Register extends Component {
+class Register extends React.Component {
   state = {
-    username: '',
-    password: '',
     errorMessage: '',
+    password: '',
+    username: '',
   };
 
   handleOnChange = e => {
@@ -25,14 +25,12 @@ class Register extends Component {
           password: this.state.password,
         }),
       )
-      .catch(err => {
-        console.log('Register Failed:', err);
-        this.setState({ errorMessage: err.message });
-      });
+      .then(() => this.setState({ registered: true }))
+      .catch(err => this.setState({ errorMessage: err.message }));
   };
 
   render() {
-    const { username, password, errorMessage } = this.state;
+    const { errorMessage, password, username } = this.state;
 
     return (
       <div>

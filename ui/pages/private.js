@@ -11,7 +11,8 @@ class Private extends React.Component {
       const counters = await store.dispatch(feathers.counters.find());
       return { counterCount: counters.value.length };
     } catch (err) {
-      return { errorMessage: err.name || err.message || '' };
+      console.log('counters.find Error:', err);
+      return { errorMessage: err.message || err.name || '' };
     }
   }
 

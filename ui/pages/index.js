@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { logout } from '../store';
+import PendingVerification from '../components/PendingVerification';
 import withAuth from '../components/withAuth';
 
 class Index extends React.Component {
@@ -17,6 +18,7 @@ class Index extends React.Component {
 
     return (
       <div>
+        <PendingVerification />
         <h1>Hello {name}!</h1>
         <div>
           <Link href="/private">
