@@ -120,3 +120,19 @@ export const resetPassword = ({ token, password }) => dispatch =>
       value: { token, password },
     }),
   );
+
+export const changePassword = ({
+  email,
+  currentPassword,
+  password,
+}) => dispatch =>
+  dispatch(
+    feathers.authManagement.create({
+      action: 'passwordChange',
+      value: {
+        user: { email },
+        oldPassword: currentPassword,
+        password,
+      },
+    }),
+  );

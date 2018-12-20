@@ -38,9 +38,18 @@ class NavigationLinks extends React.Component {
           : admin only, hidden
         </div>
         {user ? (
-          <a href="/logout" onClick={this.handleLogout}>
-            Logout
-          </a>
+          <div>
+            <div>
+              <Link href="/change-password">
+                <a>Change Password</a>
+              </Link>
+            </div>
+            <div>
+              <a href="/logout" onClick={this.handleLogout}>
+                Logout
+              </a>
+            </div>
+          </div>
         ) : (
           <div>
             <div>

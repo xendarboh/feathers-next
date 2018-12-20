@@ -40,9 +40,9 @@ class Login extends React.Component {
 
     return (
       <Layout>
-        <h1>Log In</h1>
         {!userIsAuthenticated && (
           <div>
+            <h1>Log In</h1>
             <AuthForm
               {...{
                 button: 'Log In',
