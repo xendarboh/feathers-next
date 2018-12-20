@@ -1,11 +1,10 @@
 import React from 'react';
-import Link from 'next/link';
 import { compose } from 'redux';
-import { connect } from 'react-redux';
-import withAuth from '../components/withAuth';
+import Layout from '../components/Layout';
 import feathers from '../feathers';
+import withAuth from '../components/withAuth';
 
-class Private extends React.Component {
+class PrivateVerified extends React.Component {
   static async getInitialProps({ store }) {
     try {
       const counters = await store.dispatch(feathers.counters.find());
@@ -17,35 +16,27 @@ class Private extends React.Component {
   }
 
   render() {
-    const { counterCount, errorMessage, user } = this.props;
-    const name = user ? `${user.email}` : 'Anonymous';
+    const { counterCount, errorMessage } = this.props;
 
     return (
-      <div>
+      <Layout>
+        <h1>Private Page for verified users only</h1>
+        <p>
+          This page is only accessible by users that are <i>authenticated</i>{' '}
+          and <i>verified</i>.
+        </p>
         <div>
-          <h1>Hello {name}!</h1>
           {errorMessage ? (
             <h2>Error: {errorMessage}</h2>
           ) : (
             <h2>You have {counterCount} counters.</h2>
           )}
-          <p>This content is available for logged in users only.</p>
         </div>
-        <div>
-          <Link href="/">
-            <a>Link to the home page</a>
-          </Link>
-        </div>
-      </div>
+      </Layout>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  user: state.auth.user,
-});
-
 export default compose(
-  withAuth(),
-  connect(mapStateToProps),
-)(Private);
+  withAuth(), // default selector is for verified users
+)(PrivateVerified);

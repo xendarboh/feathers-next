@@ -1,13 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { login } from '../store';
 import AuthForm from '../components/authForm';
+import Layout from '../components/Layout';
+import withAuth from '../components/withAuth';
+import { login } from '../store';
 
-class Login extends Component {
+class Login extends React.Component {
   state = {
-    username: '',
-    password: '',
     errorMessage: '',
+    password: '',
+    username: '',
   };
 
   handleOnChange = e => {
@@ -17,38 +20,54 @@ class Login extends Component {
   };
 
   handleLoginSubmit = e => {
+    const { login } = this.props;
     e.preventDefault();
-    this.props
-      .dispatch(
-        login({
-          email: this.state.username,
-          password: this.state.password,
-        }),
-      )
-      .catch(err => {
-        console.log('Login Failed:', err);
-        this.setState({ errorMessage: err.message });
-      });
+    login({
+      email: this.state.username,
+      password: this.state.password,
+    }).catch(err => {
+      console.log('Login Failed:', err);
+      this.setState({ errorMessage: err.message });
+    });
   };
 
+  /*
+   * Only render login form when user is not already authenticated.
+   * Otherwise, PendingVerification reminder is rendered (from within Layout).
+   * A page requiring verification is the only reason an authenticated user
+   * should see this.
+   */
   render() {
-    const { username, password, errorMessage } = this.state;
+    const { errorMessage, password, username } = this.state;
+    const { userIsAuthenticated } = this.props;
 
     return (
-      <div>
-        Log in please:
-        <AuthForm
-          {...{
-            username,
-            password,
-            errorMessage,
-            onChange: this.handleOnChange,
-            onSubmit: this.handleLoginSubmit,
-          }}
-        />
-      </div>
+      <Layout>
+        {!userIsAuthenticated && (
+          <div>
+            Log in please:
+            <AuthForm
+              {...{
+                username,
+                password,
+                errorMessage,
+                onChange: this.handleOnChange,
+                onSubmit: this.handleLoginSubmit,
+              }}
+            />
+          </div>
+        )}
+      </Layout>
     );
   }
 }
 
-export default connect()(Login);
+export default compose(
+  withAuth({ selector: () => true }),
+  connect(
+    state => ({
+      userIsAuthenticated: state.auth.isSignedIn,
+    }),
+    { login },
+  ),
+)(Login);

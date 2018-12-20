@@ -1,6 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
+import Layout from '../components/Layout';
+import VerifyMessage from '../components/VerifyMessage';
+import withAuth from '../components/withAuth';
 import { verify } from '../store';
 
 class Verify extends React.Component {
@@ -16,26 +20,38 @@ class Verify extends React.Component {
   }
 
   render() {
-    const { errorMessage, user } = this.props;
-    const email = user ? ` ${user.email}` : '';
+    const { errorMessage, user, userIsAuthenticated } = this.props;
+
+    const email = user ? user.email : 'unknown';
     const loginLink = (
       <Link href="/login">
         <a>Login</a>
       </Link>
     );
+
     return (
-      <div>
+      <Layout showVerifyMessage={false}>
         {errorMessage ? (
-          <h2>Verification Failed: {errorMessage}</h2>
+          <div>
+            <h2>Verification Failed: {errorMessage}</h2>
+            <VerifyMessage showResendLinkOnly />
+          </div>
         ) : (
           <div>
-            <p>Successfully verified {email}.</p>
-            <p>Please {loginLink} to continue.</p>
+            <p>
+              Successfully verified <i>{email}</i>.
+            </p>
+            {!userIsAuthenticated && <p>Please {loginLink} to continue.</p>}
           </div>
         )}
-      </div>
+      </Layout>
     );
   }
 }
 
-export default connect()(Verify);
+export default compose(
+  withAuth({ selector: () => true }),
+  connect(state => ({
+    userIsAuthenticated: state.auth.isSignedIn,
+  })),
+)(Verify);

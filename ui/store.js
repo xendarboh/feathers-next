@@ -58,7 +58,8 @@ export const login = ({ email, password }) => dispatch =>
 
 export const logout = () => dispatch => {
   removeCookie(FEATHERS_COOKIE);
-  return dispatch(feathers.auth.logout());
+  dispatch(feathers.auth.logout());
+  Router.push('/');
 };
 
 // register requires a catch()
