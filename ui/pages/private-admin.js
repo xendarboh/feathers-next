@@ -15,8 +15,8 @@ const PrivateAdmin = () => (
 
 export default compose(
   withAuth({
-    hidden: true,
     selector: state =>
       state.auth.user !== null && state.auth.user.email === 'admin',
+    statusCode: 404,
   }),
 )(PrivateAdmin);

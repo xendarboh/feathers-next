@@ -14,11 +14,15 @@ import { getCookie } from '../lib/session';
  */
 
 const defaultArgs = {
-  AuthenticatingComponent: () => null, // don't render anything while authenticating
+  // alternative component shown while authenticating
+  // default: don't render anything while authenticating
+  // set to false to disable
+  AuthenticatingComponent: () => null,
   authenticatingSelector: state => state.auth.isLoading,
-  hidden: false, // redirect hidden pages to 404 rather than login
   // selector: state => state.auth.isSignedIn, // authenticatedSelector
   selector: state => state.auth.user && state.auth.user.isVerified,
+  // display an error page  rather than redirecting to login page
+  statusCode: false,
   wrapperDisplayName: 'withAuth',
 };
 
@@ -26,8 +30,8 @@ export default args => Component => {
   const {
     AuthenticatingComponent,
     authenticatingSelector,
-    hidden,
     selector,
+    statusCode,
     wrapperDisplayName,
   } = {
     ...defaultArgs,
@@ -66,7 +70,7 @@ export default args => Component => {
         }
 
         if (!selector(store.getState()))
-          return hidden ? { statusCode: 404 } : this.redirectToLogin(ctx);
+          return statusCode ? { statusCode } : this.redirectToLogin(ctx);
 
         return {
           props: {
@@ -77,11 +81,23 @@ export default args => Component => {
         };
       }
 
+      // TODO: flash be gone!... (from AuthenticatingComponent)
+      // * without this, there is flash on first click of auth'd page
+      // * with this, there is flash on first page load
+      componentDidMount() {
+        // authenticate client only once on initial request
+        if (!feathers.authenticated) {
+          const accessToken = getCookie(FEATHERS_COOKIE);
+          this.props.dispatch(authenticate({ accessToken }));
+          feathers.authenticated = true;
+        }
+      }
+
       render() {
         const { isAuthenticating, statusCode, props } = this.props;
         if (statusCode) {
           return <Error statusCode={statusCode} />;
-        } else if (isAuthenticating) {
+        } else if (isAuthenticating && AuthenticatingComponent !== false) {
           return <AuthenticatingComponent />;
         } else {
           return <Component {...props} />;
