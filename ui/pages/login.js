@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import AuthForm from '../components/authForm';
@@ -14,9 +15,7 @@ class Login extends React.Component {
   };
 
   handleOnChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
+    this.setState({ [e.target.name]: e.target.value });
   };
 
   handleOnSubmit = e => {
@@ -41,11 +40,12 @@ class Login extends React.Component {
 
     return (
       <Layout>
+        <h1>Log In</h1>
         {!userIsAuthenticated && (
           <div>
             <AuthForm
               {...{
-                buttonName: 'Log In',
+                button: 'Log In',
                 email,
                 errorMessage,
                 onChange: this.handleOnChange,
@@ -53,6 +53,9 @@ class Login extends React.Component {
                 password,
               }}
             />
+            <Link href="/recover">
+              <a>Forgot Password?</a>
+            </Link>
           </div>
         )}
       </Layout>
@@ -61,7 +64,11 @@ class Login extends React.Component {
 }
 
 export default compose(
-  withAuth({ selector: () => true }),
+  withAuth({
+    // avoid unmounting this login component while authenticating
+    AuthenticatingComponent: false,
+    selector: () => true,
+  }),
   connect(
     state => ({
       userIsAuthenticated: state.auth.isSignedIn,

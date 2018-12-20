@@ -8,12 +8,8 @@ const Layout = ({ children, user, showVerifyMessage = true }) => (
   <div>
     <NavigationLinks />
     <hr />
-    <h2>Hello {user.email}!</h2>
     {showVerifyMessage && user.isVerifyPending && <VerifyMessage />}
-    <br />
-    <br />
     <div>{children}</div>
-    <br />
     <br />
     <br />
     <hr />
@@ -32,7 +28,7 @@ const Layout = ({ children, user, showVerifyMessage = true }) => (
 const mapStateToProps = state => ({
   user: {
     ...state.auth.user,
-    email: state.auth.user ? state.auth.user.email : 'Anonymous',
+    email: state.auth.user ? state.auth.user.email : <i>undefined</i>,
     isAdmin: state.auth.user && state.auth.user.email === 'admin',
     isAuthenticated: state.auth.isSignedIn,
     isVerifyPending: state.auth.user && state.auth.user.isVerified === false,

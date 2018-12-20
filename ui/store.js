@@ -104,3 +104,19 @@ export const resendVerifySignup = ({ email }) => dispatch =>
       value: { email },
     }),
   );
+
+export const sendResetPassword = ({ email }) => dispatch =>
+  dispatch(
+    feathers.authManagement.create({
+      action: 'sendResetPwd',
+      value: { email },
+    }),
+  );
+
+export const resetPassword = ({ token, password }) => dispatch =>
+  dispatch(
+    feathers.authManagement.create({
+      action: 'resetPwdLong',
+      value: { token, password },
+    }),
+  );

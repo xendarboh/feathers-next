@@ -15,7 +15,7 @@ class Verify extends React.Component {
       return { user: result.value };
     } catch (err) {
       console.log('Registration Verification Failed:', err.message);
-      return { errorMessage: err.message };
+      return { errorMessage: `Verification Failed: ${err.message}` };
     }
   }
 
@@ -25,7 +25,7 @@ class Verify extends React.Component {
     const email = user ? user.email : 'unknown';
     const loginLink = (
       <Link href="/login">
-        <a>Login</a>
+        <a>Log In</a>
       </Link>
     );
 
@@ -33,7 +33,7 @@ class Verify extends React.Component {
       <Layout showVerifyMessage={false}>
         {errorMessage ? (
           <div>
-            <h2>Verification Failed: {errorMessage}</h2>
+            <h3>{errorMessage}</h3>
             <VerifyMessage showResendLinkOnly />
           </div>
         ) : (

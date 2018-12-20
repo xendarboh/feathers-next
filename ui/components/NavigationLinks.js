@@ -45,7 +45,7 @@ class NavigationLinks extends React.Component {
           <div>
             <div>
               <Link href="/login">
-                <a>Login</a>
+                <a>Log In</a>
               </Link>
             </div>
             <div>

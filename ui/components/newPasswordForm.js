@@ -1,6 +1,5 @@
 export default ({
-  button,
-  email,
+  button = 'Submit',
   errorMessage,
   onChange,
   onSubmit,
@@ -8,10 +7,6 @@ export default ({
 }) => {
   return (
     <form onSubmit={onSubmit}>
-      <div>
-        <label>Email </label>
-        <input type="text" name="email" onChange={onChange} />
-      </div>
       <div>
         <label>Password </label>
         <input type="password" name="password" onChange={onChange} />

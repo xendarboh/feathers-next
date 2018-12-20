@@ -38,5 +38,8 @@ class PrivateVerified extends React.Component {
 }
 
 export default compose(
-  withAuth(), // default selector is for verified users
+  withAuth({
+    selector: state => state.auth.user && state.auth.user.isVerified,
+    // statusCode: 403,
+  }),
 )(PrivateVerified);

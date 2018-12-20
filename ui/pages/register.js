@@ -13,9 +13,7 @@ class Register extends React.Component {
   };
 
   handleOnChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
+    this.setState({ [e.target.name]: e.target.value });
   };
 
   handleOnSubmit = e => {
@@ -33,9 +31,10 @@ class Register extends React.Component {
 
     return (
       <Layout>
+        <h1>Register</h1>
         <AuthForm
           {...{
-            buttonName: 'Register',
+            button: 'Register',
             email,
             errorMessage,
             onChange: this.handleOnChange,
