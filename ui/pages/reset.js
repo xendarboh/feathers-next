@@ -6,9 +6,7 @@ import Layout from '../components/Layout';
 import NewPasswordForm from '../components/newPasswordForm';
 import withAuth from '../components/withAuth';
 import { resetPassword } from '../store';
-
-const passwordMinLength = 6;
-const tokenMinLength = 40;
+import { validatePassword, validateResetToken } from '../lib/validate';
 
 class Reset extends React.Component {
   state = {
@@ -19,8 +17,9 @@ class Reset extends React.Component {
 
   static async getInitialProps({ query }) {
     const { token } = query;
+    const [err, isTokenValid] = validateResetToken(token);
     return {
-      isTokenError: !token || token.length < tokenMinLength,
+      isTokenError: !isTokenValid,
       token,
     };
   }
@@ -35,15 +34,14 @@ class Reset extends React.Component {
 
     e.preventDefault();
 
-    if (password.length < passwordMinLength) {
-      this.setState({
-        errorMessage: `Password must have ${passwordMinLength} or more characters`,
-      });
+    const [errorMessage, isPasswordValid] = validatePassword(password);
+    if (!isPasswordValid) {
+      this.setState({ errorMessage: errorMessage ? errorMessage : '' });
       return;
     }
 
     resetPassword({ token, password })
-      .then(result => this.setState({ errorMessage: '', success: true }))
+      .then(() => this.setState({ errorMessage: '', success: true }))
       .catch(err => this.setState({ errorMessage: err.message }));
   };
 
