@@ -8,9 +8,9 @@ import { login } from '../store';
 
 class Login extends React.Component {
   state = {
+    email: '',
     errorMessage: '',
     password: '',
-    username: '',
   };
 
   handleOnChange = e => {
@@ -19,40 +19,38 @@ class Login extends React.Component {
     });
   };
 
-  handleLoginSubmit = e => {
+  handleOnSubmit = e => {
     const { login } = this.props;
+    const { email, password } = this.state;
     e.preventDefault();
-    login({
-      email: this.state.username,
-      password: this.state.password,
-    }).catch(err => {
+    // login redirects page upon success
+    login({ email, password }).catch(err => {
       console.log('Login Failed:', err);
       this.setState({ errorMessage: err.message });
     });
   };
 
   /*
-   * Only render login form when user is not already authenticated.
-   * Otherwise, PendingVerification reminder is rendered (from within Layout).
-   * A page requiring verification is the only reason an authenticated user
-   * should see this.
+   * Only show login form when user is not already authenticated.
+   * Otherwise, only VerifyMessage is shown (from within Layout) when user is
+   * not verified.
    */
   render() {
-    const { errorMessage, password, username } = this.state;
+    const { email, errorMessage, password } = this.state;
     const { userIsAuthenticated } = this.props;
 
     return (
       <Layout>
         {!userIsAuthenticated && (
           <div>
-            Log in please:
             <AuthForm
               {...{
-                username,
-                password,
+                buttonName: 'Log In',
+                email,
                 errorMessage,
                 onChange: this.handleOnChange,
-                onSubmit: this.handleLoginSubmit,
+                onSubmit: this.handleOnSubmit,
+                password,
               }}
             />
           </div>

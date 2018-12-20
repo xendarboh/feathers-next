@@ -1,16 +1,23 @@
-export default ({ username, password, errorMessage, onChange, onSubmit }) => {
+export default ({
+  buttonName,
+  email,
+  errorMessage,
+  onChange,
+  onSubmit,
+  password,
+}) => {
   return (
     <form onSubmit={onSubmit}>
       <div>
-        <label>Username</label>
-        <input type="text" name="username" onChange={onChange} />
+        <label>Email </label>
+        <input type="text" name="email" onChange={onChange} />
       </div>
       <div>
-        <label>Password</label>
+        <label>Password </label>
         <input type="password" name="password" onChange={onChange} />
       </div>
       <div>
-        <button>Submit</button>
+        <button>{buttonName}</button>
       </div>
       <small style={{ color: 'red' }}>{errorMessage}</small>
     </form>

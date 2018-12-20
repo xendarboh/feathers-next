@@ -7,9 +7,9 @@ import { register } from '../store';
 
 class Register extends React.Component {
   state = {
+    email: '',
     errorMessage: '',
     password: '',
-    username: '',
   };
 
   handleOnChange = e => {
@@ -18,30 +18,29 @@ class Register extends React.Component {
     });
   };
 
-  handleRegisterSubmit = e => {
+  handleOnSubmit = e => {
     const { register } = this.props;
+    const { email, password } = this.state;
     e.preventDefault();
-    register({
-      email: this.state.username,
-      password: this.state.password,
-    })
-      .then(() => this.setState({ registered: true }))
-      .catch(err => this.setState({ errorMessage: err.message }));
+    // register redirects page upon success
+    register({ email, password }).catch(err =>
+      this.setState({ errorMessage: err.message }),
+    );
   };
 
   render() {
-    const { errorMessage, password, username } = this.state;
+    const { email, errorMessage, password } = this.state;
 
     return (
       <Layout>
-        Register please:
         <AuthForm
           {...{
-            username,
-            password,
+            buttonName: 'Register',
+            email,
             errorMessage,
             onChange: this.handleOnChange,
-            onSubmit: this.handleRegisterSubmit,
+            onSubmit: this.handleOnSubmit,
+            password,
           }}
         />
       </Layout>
