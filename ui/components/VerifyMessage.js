@@ -21,7 +21,7 @@ class VerifyMessage extends React.Component {
     const { email, showResendLinkOnly = false } = this.props;
 
     const resendLink = (
-      <a href="/verify" onClick={this.handleResendVerify}>
+      <a href="/account/verify" onClick={this.handleResendVerify}>
         resend verification link
       </a>
     );

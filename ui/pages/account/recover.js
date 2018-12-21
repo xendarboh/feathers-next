@@ -1,9 +1,9 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import Layout from '../components/Layout';
-import AccountRecoveryForm from '../components/accountRecoveryForm';
-import { sendResetPassword } from '../store';
+import Layout from '../../components/Layout';
+import AccountRecoveryForm from '../../components/accountRecoveryForm';
+import { sendResetPassword } from '../../store';
 
 class AccountRecovery extends React.Component {
   state = {

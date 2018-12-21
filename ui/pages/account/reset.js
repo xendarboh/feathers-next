@@ -2,11 +2,11 @@ import React from 'react';
 import Link from 'next/link';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import Layout from '../components/Layout';
-import NewPasswordForm from '../components/newPasswordForm';
-import withAuth from '../components/withAuth';
-import { resetPassword } from '../store';
-import { validatePassword, validateResetToken } from '../lib/validate';
+import Layout from '../../components/Layout';
+import NewPasswordForm from '../../components/newPasswordForm';
+import withAuth from '../../components/withAuth';
+import { resetPassword } from '../../store';
+import { validatePassword, validateResetToken } from '../../lib/validate';
 
 class Reset extends React.Component {
   state = {
@@ -50,13 +50,13 @@ class Reset extends React.Component {
     const { errorMessage, password, success } = this.state;
 
     const loginLink = (
-      <Link href="/login">
+      <Link href="/account/login">
         <a>Log In</a>
       </Link>
     );
 
     const recoverLink = text => (
-      <Link href="/recover">
+      <Link href="/account/recover">
         <a>{text}</a>
       </Link>
     );

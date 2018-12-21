@@ -18,11 +18,21 @@ const defaultArgs = {
   // default: don't render anything while authenticating
   // set to false to disable
   AuthenticatingComponent: () => null,
+
+  // state selector for deciding if authentication is in process
   authenticatingSelector: state => state.auth.isLoading,
-  // selector: state => state.auth.isSignedIn, // authenticatedSelector
+
+  // path to login page, redirect failed auths here unless statusCode is set
+  loginPath: '/account/login',
+
+  // state selector for deciding if user has permission to access page
+  // selector: state => state.auth.isSignedIn,
   selector: state => state.auth.user && state.auth.user.isVerified,
-  // display an error page  rather than redirecting to login page
+
+  // display an error page rather than redirect to login page
   statusCode: false,
+
+  // React Component displayName wrapper
   wrapperDisplayName: 'withAuth',
 };
 
@@ -30,6 +40,7 @@ export default args => Component => {
   const {
     AuthenticatingComponent,
     authenticatingSelector,
+    loginPath,
     selector,
     statusCode,
     wrapperDisplayName,
@@ -47,10 +58,12 @@ export default args => Component => {
       static redirectToLogin(ctx) {
         const { isServer, req, res } = ctx;
         if (isServer) {
-          res.writeHead(302, { Location: `/login?next=${req.originalUrl}` });
+          res.writeHead(302, {
+            Location: `${loginPath}?next=${req.originalUrl}`,
+          });
           res.end();
         } else {
-          Router.push(`/login?next=${ctx.asPath}`);
+          Router.push(`${loginPath}?next=${ctx.asPath}`);
         }
       }
 
@@ -82,8 +95,8 @@ export default args => Component => {
       }
 
       // TODO: flash be gone!... (from AuthenticatingComponent)
-      // * without this, there is flash on first click of auth'd page
-      // * with this, there is flash on first page load
+      // * without this, there is flash on client's first click of auth'd page
+      // * with this, there is flash on client's first page load
       componentDidMount() {
         // authenticate client only once on initial request
         if (!feathers.authenticated) {
@@ -106,7 +119,6 @@ export default args => Component => {
     };
 
   const mapStateToProps = state => ({
-    // isAuthenticated: selector(state),
     isAuthenticating: authenticatingSelector(state),
   });
 

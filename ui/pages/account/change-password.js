@@ -1,15 +1,15 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import Layout from '../components/Layout';
-import NewPasswordForm from '../components/newPasswordForm';
-import withAuth from '../components/withAuth';
-import { validatePassword } from '../lib/validate';
+import Layout from '../../components/Layout';
+import NewPasswordForm from '../../components/newPasswordForm';
+import withAuth from '../../components/withAuth';
+import { validatePassword } from '../../lib/validate';
 import {
   changePassword,
   selectUserEmail,
   selectUserIsAuthenticated,
-} from '../store';
+} from '../../store';
 
 class ChangePassword extends React.Component {
   state = {

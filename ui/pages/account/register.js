@@ -1,9 +1,9 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import AuthForm from '../components/authForm';
-import Layout from '../components/Layout';
-import { register } from '../store';
+import AuthForm from '../../components/authForm';
+import Layout from '../../components/Layout';
+import { register } from '../../store';
 
 class Register extends React.Component {
   state = {

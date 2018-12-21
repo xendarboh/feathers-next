@@ -1,14 +1,14 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import AuthForm from '../components/authForm';
-import Layout from '../components/Layout';
-import withAuth from '../components/withAuth';
+import AuthForm from '../../components/authForm';
+import Layout from '../../components/Layout';
+import withAuth from '../../components/withAuth';
 import {
   changeIdentity,
   selectUserEmail,
   selectUserIsAuthenticated,
-} from '../store';
+} from '../../store';
 
 class ChangeIdentity extends React.Component {
   state = {

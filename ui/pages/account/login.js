@@ -2,10 +2,10 @@ import React from 'react';
 import Link from 'next/link';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import AuthForm from '../components/authForm';
-import Layout from '../components/Layout';
-import withAuth from '../components/withAuth';
-import { login, selectUserIsAuthenticated } from '../store';
+import AuthForm from '../../components/authForm';
+import Layout from '../../components/Layout';
+import withAuth from '../../components/withAuth';
+import { login, selectUserIsAuthenticated } from '../../store';
 
 class Login extends React.Component {
   state = {
@@ -53,7 +53,7 @@ class Login extends React.Component {
                 password,
               }}
             />
-            <Link href="/recover">
+            <Link href="/account/recover">
               <a>Forgot Password?</a>
             </Link>
           </div>

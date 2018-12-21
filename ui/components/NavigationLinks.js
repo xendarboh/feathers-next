@@ -40,17 +40,17 @@ class NavigationLinks extends React.Component {
         {userIsAuthenticated ? (
           <div>
             <div>
-              <Link href="/change-password">
+              <Link href="/account/change-password">
                 <a>Change Password</a>
               </Link>
             </div>
             <div>
-              <Link href="/change-identity">
+              <Link href="/account/change-identity">
                 <a>Change Identity</a>
               </Link>
             </div>
             <div>
-              <a href="/logout" onClick={this.handleLogout}>
+              <a href="/account/logout" onClick={this.handleLogout}>
                 Logout
               </a>
             </div>
@@ -58,12 +58,12 @@ class NavigationLinks extends React.Component {
         ) : (
           <div>
             <div>
-              <Link href="/login">
+              <Link href="/account/login">
                 <a>Log In</a>
               </Link>
             </div>
             <div>
-              <Link href="/register">
+              <Link href="/account/register">
                 <a>Register</a>
               </Link>
             </div>

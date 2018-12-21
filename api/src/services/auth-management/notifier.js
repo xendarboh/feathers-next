@@ -14,8 +14,7 @@ module.exports = app => {
   const returnEmail = app.get('complaint_email') || process.env.COMPLAINT_EMAIL;
 
   function getLink(type, hash) {
-    const url = 'http://localhost:3000/' + type + '?token=' + hash;
-    return url;
+    return 'http://localhost:3000/account/' + type + '?token=' + hash;
   }
 
   const sendEmail = email => {

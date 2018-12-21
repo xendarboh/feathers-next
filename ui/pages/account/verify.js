@@ -2,10 +2,10 @@ import React from 'react';
 import Link from 'next/link';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import Layout from '../components/Layout';
-import VerifyMessage from '../components/VerifyMessage';
-import withAuth from '../components/withAuth';
-import { selectUserIsAuthenticated, verify } from '../store';
+import Layout from '../../components/Layout';
+import VerifyMessage from '../../components/VerifyMessage';
+import withAuth from '../../components/withAuth';
+import { selectUserIsAuthenticated, verify } from '../../store';
 
 class Verify extends React.Component {
   static async getInitialProps({ store, query }) {
@@ -23,7 +23,7 @@ class Verify extends React.Component {
 
     const email = user ? user.email : 'unknown';
     const loginLink = (
-      <Link href="/login">
+      <Link href="/account/login">
         <a>Log In</a>
       </Link>
     );
