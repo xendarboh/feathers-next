@@ -18,7 +18,7 @@ const authOptions = {};
 
 export const services = {
   'auth-management': 'authManagement',
-  counter: 'counters',
+  counters: 'counters',
   users: 'users',
 };
 
