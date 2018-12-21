@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Layout from '../components/Layout';
 import VerifyMessage from '../components/VerifyMessage';
 import withAuth from '../components/withAuth';
-import { verify } from '../store';
+import { selectUserIsAuthenticated, verify } from '../store';
 
 class Verify extends React.Component {
   static async getInitialProps({ store, query }) {
@@ -51,6 +51,6 @@ class Verify extends React.Component {
 export default compose(
   withAuth({ selector: () => true }),
   connect(state => ({
-    userIsAuthenticated: state.auth.isSignedIn,
+    userIsAuthenticated: selectUserIsAuthenticated(state),
   })),
 )(Verify);

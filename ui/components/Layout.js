@@ -1,6 +1,14 @@
 import { connect } from 'react-redux';
 import NavigationLinks from '../components/NavigationLinks';
 import VerifyMessage from '../components/VerifyMessage';
+import {
+  selectUserEmail,
+  selectUserIsAdmin,
+  selectUserIsAuthenticated,
+  selectUserIsChangePending,
+  selectUserIsVerified,
+  selectUserIsVerifyPending,
+} from '../store';
 
 const printBool = x => (x ? 'yes' : 'no');
 
@@ -21,17 +29,20 @@ const Layout = ({ children, user, showVerifyMessage = true }) => (
       <div>isAuthenticated: {printBool(user.isAuthenticated)}</div>
       <div>isVerified: {printBool(user.isVerified)}</div>
       <div>isAdmin: {printBool(user.isAdmin)}</div>
+      <div>isVerifyPending: {printBool(user.isVerifyPending)}</div>
+      <div>isChangePending: {printBool(user.isChangePending)}</div>
     </div>
   </div>
 );
 
 const mapStateToProps = state => ({
   user: {
-    ...state.auth.user,
-    email: state.auth.user ? state.auth.user.email : <i>undefined</i>,
-    isAdmin: state.auth.user && state.auth.user.email === 'admin',
-    isAuthenticated: state.auth.isSignedIn,
-    isVerifyPending: state.auth.user && state.auth.user.isVerified === false,
+    email: selectUserEmail(state) || <i>undefined</i>,
+    isAdmin: selectUserIsAdmin(state),
+    isAuthenticated: selectUserIsAuthenticated(state),
+    isChangePending: selectUserIsChangePending(state),
+    isVerified: selectUserIsVerified(state),
+    isVerifyPending: selectUserIsVerifyPending(state),
   },
 });
 

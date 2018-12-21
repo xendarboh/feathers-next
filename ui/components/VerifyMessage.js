@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { resendVerify } from '../store';
+import { resendVerify, selectUserEmail } from '../store';
 
 class VerifyMessage extends React.Component {
   state = {
@@ -41,11 +41,9 @@ class VerifyMessage extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  email: state.auth.user ? state.auth.user.email : null,
-});
-
 export default connect(
-  mapStateToProps,
+  state => ({
+    email: selectUserEmail(state),
+  }),
   { resendVerify },
 )(VerifyMessage);

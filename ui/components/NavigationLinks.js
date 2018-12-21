@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { connect } from 'react-redux';
-import { logout } from '../store';
+import { logout, selectUserIsAuthenticated } from '../store';
 
 class NavigationLinks extends React.Component {
   handleLogout = e => {
@@ -11,7 +11,7 @@ class NavigationLinks extends React.Component {
   };
 
   render() {
-    const { user } = this.props;
+    const { userIsAuthenticated } = this.props;
     return (
       <div>
         <div>
@@ -37,7 +37,7 @@ class NavigationLinks extends React.Component {
           </Link>
           : admin only, hidden
         </div>
-        {user ? (
+        {userIsAuthenticated ? (
           <div>
             <div>
               <Link href="/change-password">
@@ -75,7 +75,7 @@ class NavigationLinks extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  user: state.auth.user,
+  userIsAuthenticated: selectUserIsAuthenticated(state),
 });
 
 export default connect(

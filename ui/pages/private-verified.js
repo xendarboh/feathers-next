@@ -3,6 +3,7 @@ import { compose } from 'redux';
 import Layout from '../components/Layout';
 import feathers from '../feathers';
 import withAuth from '../components/withAuth';
+import { selectUserIsVerified } from '../store';
 
 class PrivateVerified extends React.Component {
   static async getInitialProps({ store }) {
@@ -39,7 +40,7 @@ class PrivateVerified extends React.Component {
 
 export default compose(
   withAuth({
-    selector: state => state.auth.user && state.auth.user.isVerified,
+    selector: selectUserIsVerified,
     // statusCode: 403,
   }),
 )(PrivateVerified);

@@ -2,6 +2,7 @@ import React from 'react';
 import { compose } from 'redux';
 import Layout from '../components/Layout';
 import withAuth from '../components/withAuth';
+import { selectUserIsAdmin } from '../store';
 
 const PrivateAdmin = () => (
   <Layout>
@@ -15,8 +16,7 @@ const PrivateAdmin = () => (
 
 export default compose(
   withAuth({
-    selector: state =>
-      state.auth.user !== null && state.auth.user.email === 'admin',
+    selector: selectUserIsAdmin,
     statusCode: 404,
   }),
 )(PrivateAdmin);

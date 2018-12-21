@@ -4,8 +4,12 @@ import { connect } from 'react-redux';
 import Layout from '../components/Layout';
 import NewPasswordForm from '../components/newPasswordForm';
 import withAuth from '../components/withAuth';
-import { changePassword } from '../store';
 import { validatePassword } from '../lib/validate';
+import {
+  changePassword,
+  selectUserEmail,
+  selectUserIsAuthenticated,
+} from '../store';
 
 class ChangePassword extends React.Component {
   state = {
@@ -70,11 +74,11 @@ class ChangePassword extends React.Component {
 
 export default compose(
   withAuth({
-    selector: state => state.auth.isSignedIn,
+    selector: selectUserIsAuthenticated,
   }),
   connect(
     state => ({
-      email: state.auth.user ? state.auth.user.email : null,
+      email: selectUserEmail(state),
     }),
     { changePassword },
   ),

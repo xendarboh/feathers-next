@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import AuthForm from '../components/authForm';
 import Layout from '../components/Layout';
 import withAuth from '../components/withAuth';
-import { login } from '../store';
+import { login, selectUserIsAuthenticated } from '../store';
 
 class Login extends React.Component {
   state = {
@@ -71,7 +71,7 @@ export default compose(
   }),
   connect(
     state => ({
-      userIsAuthenticated: state.auth.isSignedIn,
+      userIsAuthenticated: selectUserIsAuthenticated(state),
     }),
     { login },
   ),

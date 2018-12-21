@@ -158,3 +158,28 @@ export const changeIdentity = ({
       }),
     ),
   );
+
+// -- SELECTORS
+export const selectUser = state => state.auth.user;
+
+export const selectUserEmail = state =>
+  state.auth.user ? state.auth.user.email : null;
+
+export const selectUserIsAdmin = state =>
+  state.auth.user && state.auth.user.email === 'admin'; // placeholder example...
+
+export const selectUserIsAuthenticated = state => state.auth.isSignedIn;
+
+// Note: once a change request is submitted, this is only guarenteed correct
+// after the app is reloaded / re-authed (auth.user.verifyChanges is not
+// updated by the changeIdentity action/reducer)
+export const selectUserIsChangePending = state =>
+  state.auth.user &&
+  state.auth.user.verifyChanges &&
+  JSON.stringify(state.auth.user.verifyChanges) !== '{}';
+
+export const selectUserIsVerified = state =>
+  state.auth.user && state.auth.user.isVerified;
+
+export const selectUserIsVerifyPending = state =>
+  state.auth.user && state.auth.user.isVerified === false;
