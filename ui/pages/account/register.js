@@ -3,7 +3,11 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import AuthForm from '../../components/authForm';
 import Layout from '../../components/Layout';
-import { register, selectAuthIsProcessing } from '../../store';
+import {
+  register,
+  selectAuthIsLoading,
+  selectAuthIsProcessing,
+} from '../../store';
 
 class Register extends React.Component {
   state = {
@@ -52,7 +56,7 @@ class Register extends React.Component {
 export default compose(
   connect(
     state => ({
-      isProcessing: selectAuthIsProcessing(state),
+      isProcessing: selectAuthIsLoading(state) || selectAuthIsProcessing(state),
     }),
     { register },
   ),

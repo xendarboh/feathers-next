@@ -160,8 +160,10 @@ export const changeIdentity = ({
   );
 
 // -- SELECTORS
+export const selectAuthIsLoading = state => state.auth.isLoading;
+
 export const selectAuthIsProcessing = state =>
-  state.auth.isLoading || state.authManagement.isSaving;
+  state.authManagement.isSaving || state.users.isSaving;
 
 export const selectUser = state => state.auth.user;
 

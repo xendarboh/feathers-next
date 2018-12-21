@@ -2,9 +2,15 @@ import Error from 'next/error';
 import React from 'react';
 import Router from 'next/router';
 import feathers from '../feathers';
-import { authenticate, logout, FEATHERS_COOKIE } from '../store';
 import { connect } from 'react-redux';
 import { getCookie } from '../lib/session';
+import {
+  FEATHERS_COOKIE,
+  authenticate,
+  logout,
+  selectAuthIsLoading,
+  selectUserIsVerified,
+} from '../store';
 
 /*
  * inspiration:
@@ -15,19 +21,20 @@ import { getCookie } from '../lib/session';
 
 const defaultArgs = {
   // alternative component shown while authenticating
+  // set to false to disable, useful to not unmount some components while authenticating
   // default: don't render anything while authenticating
-  // set to false to disable
   AuthenticatingComponent: () => null,
 
   // state selector for deciding if authentication is in process
-  authenticatingSelector: state => state.auth.isLoading,
+  authenticatingSelector: selectAuthIsLoading,
 
-  // path to login page, redirect failed auths here unless statusCode is set
+  // path to login page
+  // redirect failed auths here unless statusCode is set
   loginPath: '/account/login',
 
   // state selector for deciding if user has permission to access page
-  // selector: state => state.auth.isSignedIn,
-  selector: state => state.auth.user && state.auth.user.isVerified,
+  // default: require verification
+  selector: selectUserIsVerified,
 
   // display an error page rather than redirect to login page
   statusCode: false,
