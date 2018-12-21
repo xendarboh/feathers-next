@@ -1,6 +1,10 @@
 # feathers-next
 
-This project shows a way to integrate a [Next.js](https://github.com/zeit/next.js) application with a [Feathers](http://feathersjs.com) backend, including authentication (with user name/password) and Redux.
+This project shows a way to integrate a [Next.js](https://github.com/zeit/next.js) application with a [Feathers](http://feathersjs.com) backend, including local authentication (with user email/password) and Redux.
+
+Uses [feathers-authentication-management](https://github.com/feathers-plus/feathers-authentication-management) for user registration, email verification, reset/change password, change email, etc.
+
+Uses authentication selectors for per-page permissions to restrict pages to users that are authenticated, verified, admin-only, etc.
 
 ## About
 
