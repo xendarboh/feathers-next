@@ -14,7 +14,6 @@ class Verify extends React.Component {
       const result = await store.dispatch(verify({ token }));
       return { user: result.value };
     } catch (err) {
-      console.log('Registration Verification Failed:', err.message);
       return { errorMessage: `Verification Failed: ${err.message}` };
     }
   }

@@ -45,6 +45,11 @@ class NavigationLinks extends React.Component {
               </Link>
             </div>
             <div>
+              <Link href="/change-identity">
+                <a>Change Identity</a>
+              </Link>
+            </div>
+            <div>
               <a href="/logout" onClick={this.handleLogout}>
                 Logout
               </a>

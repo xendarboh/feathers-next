@@ -64,7 +64,7 @@ export const logout = () => dispatch => {
 
 // register requires a catch()
 export const register = ({ email, password }) => dispatch =>
-  dispatch(checkUnique({ email })).then(() =>
+  dispatch(checkUnique({ identifyUser: { email } })).then(() =>
     dispatch(feathers.users.create({ email, password })).then(() =>
       dispatch(login({ email, password })),
     ),
@@ -87,11 +87,11 @@ export const verify = ({ token }) => dispatch =>
     }),
   );
 
-export const checkUnique = ({ email, ownId = null }) => dispatch =>
+export const checkUnique = ({ identifyUser, ownId = null }) => dispatch =>
   dispatch(
     feathers.authManagement.create({
       action: 'checkUnique',
-      value: { email },
+      value: identifyUser, // example: { email, username }
       ownId,
       meta: { noErrMsg: false },
     }),
@@ -135,4 +135,19 @@ export const changePassword = ({
         password,
       },
     }),
+  );
+
+// makes a request for changes that requires verification
+export const changeIdentity = ({ email, password, changes }) => dispatch =>
+  dispatch(checkUnique({ identifyUser: { ...changes } })).then(() =>
+    dispatch(
+      feathers.authManagement.create({
+        action: 'identityChange',
+        value: {
+          user: { email },
+          password,
+          changes,
+        },
+      }),
+    ),
   );
