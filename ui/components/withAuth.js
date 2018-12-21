@@ -29,8 +29,9 @@ const defaultArgs = {
   authingSelector: selectAuthIsLoading,
 
   // path to login page
-  // redirect failed auths here unless statusCode is set
-  loginPath: '/account/login',
+  // failed auths are redirected here unless statusCode is set
+  // a query param is used to redirect back to requested page upon login
+  loginPath: '/account/login?go=',
 
   // state selector for deciding if user has permission to access page
   // default: require verification
@@ -66,11 +67,11 @@ export default args => Component => {
         const { isServer, req, res } = ctx;
         if (isServer) {
           res.writeHead(302, {
-            Location: `${loginPath}?next=${req.originalUrl}`,
+            Location: `${loginPath}${req.originalUrl}`,
           });
           res.end();
         } else {
-          Router.push(`${loginPath}?next=${ctx.asPath}`);
+          Router.push(`${loginPath}${ctx.asPath}`);
         }
       }
 

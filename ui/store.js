@@ -48,12 +48,12 @@ export const reducer = (state = exampleInitialState, action) => {
 
 // -- ACTIONS
 // login requires a catch()
-export const login = ({ email, password }) => dispatch =>
+export const login = ({ email, password, go = '/' }) => dispatch =>
   dispatch(
     feathers.auth.authenticate({ strategy: 'local', email, password }),
   ).then(({ value: { accessToken } }) => {
     setCookie(FEATHERS_COOKIE, accessToken);
-    Router.push('/');
+    Router.push(go ? go : '/');
   });
 
 export const logout = () => dispatch => {

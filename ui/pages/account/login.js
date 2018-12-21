@@ -14,16 +14,21 @@ class Login extends React.Component {
     password: '',
   };
 
+  static async getInitialProps({ query }) {
+    const { go } = query;
+    return { go };
+  }
+
   handleOnChange = e => {
     this.setState({ [e.target.name]: e.target.value, errorMessage: '' });
   };
 
   handleOnSubmit = e => {
-    const { login } = this.props;
+    const { go, login } = this.props;
     const { email, password } = this.state;
     e.preventDefault();
     // login redirects page upon success
-    login({ email, password }).catch(err =>
+    login({ email, password, go }).catch(err =>
       this.setState({ errorMessage: err.message }),
     );
   };
@@ -36,8 +41,6 @@ class Login extends React.Component {
   render() {
     const { email, errorMessage, password } = this.state;
     const { isProcessing, userIsAuthed } = this.props;
-
-    console.log('isProcessing:', isProcessing);
 
     return (
       <Layout>
