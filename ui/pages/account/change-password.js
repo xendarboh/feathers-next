@@ -7,6 +7,7 @@ import withAuth from '../../components/withAuth';
 import { validatePassword } from '../../lib/validate';
 import {
   changePassword,
+  selectAuthIsProcessing,
   selectUserEmail,
   selectUserIsAuthenticated,
 } from '../../store';
@@ -46,6 +47,7 @@ class ChangePassword extends React.Component {
 
   render() {
     const { currentPassword, errorMessage, password, success } = this.state;
+    const { isProcessing } = this.props;
 
     return (
       <Layout>
@@ -57,6 +59,7 @@ class ChangePassword extends React.Component {
               button: 'Change Password',
               currentPassword,
               errorMessage,
+              isProcessing,
               onChange: this.handleOnChange,
               onSubmit: this.handleOnSubmit,
               password,
@@ -79,6 +82,7 @@ export default compose(
   connect(
     state => ({
       email: selectUserEmail(state),
+      isProcessing: selectAuthIsProcessing(state),
     }),
     { changePassword },
   ),

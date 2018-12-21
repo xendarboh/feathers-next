@@ -6,6 +6,7 @@ import Layout from '../../components/Layout';
 import withAuth from '../../components/withAuth';
 import {
   changeIdentity,
+  selectAuthIsProcessing,
   selectUserEmail,
   selectUserIsAuthenticated,
 } from '../../store';
@@ -37,6 +38,7 @@ class ChangeIdentity extends React.Component {
 
   render() {
     const { email, errorMessage, password, success } = this.state;
+    const { isProcessing } = this.props;
 
     return (
       <Layout>
@@ -47,6 +49,7 @@ class ChangeIdentity extends React.Component {
               button: 'Change Email',
               email,
               errorMessage,
+              isProcessing,
               onChange: this.handleOnChange,
               onSubmit: this.handleOnSubmit,
               password,
@@ -73,6 +76,7 @@ export default compose(
   connect(
     state => ({
       email: selectUserEmail(state),
+      isProcessing: selectAuthIsProcessing(state),
     }),
     { changeIdentity },
   ),

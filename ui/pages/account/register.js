@@ -3,7 +3,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import AuthForm from '../../components/authForm';
 import Layout from '../../components/Layout';
-import { register } from '../../store';
+import { register, selectAuthIsProcessing } from '../../store';
 
 class Register extends React.Component {
   state = {
@@ -28,6 +28,7 @@ class Register extends React.Component {
 
   render() {
     const { email, errorMessage, password } = this.state;
+    const { isProcessing } = this.props;
 
     return (
       <Layout>
@@ -37,6 +38,7 @@ class Register extends React.Component {
             button: 'Register',
             email,
             errorMessage,
+            isProcessing,
             onChange: this.handleOnChange,
             onSubmit: this.handleOnSubmit,
             password,
@@ -49,7 +51,9 @@ class Register extends React.Component {
 
 export default compose(
   connect(
-    null,
+    state => ({
+      isProcessing: selectAuthIsProcessing(state),
+    }),
     { register },
   ),
 )(Register);

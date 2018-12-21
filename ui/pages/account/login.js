@@ -5,7 +5,11 @@ import { connect } from 'react-redux';
 import AuthForm from '../../components/authForm';
 import Layout from '../../components/Layout';
 import withAuth from '../../components/withAuth';
-import { login, selectUserIsAuthenticated } from '../../store';
+import {
+  login,
+  selectAuthIsProcessing,
+  selectUserIsAuthenticated,
+} from '../../store';
 
 class Login extends React.Component {
   state = {
@@ -23,10 +27,9 @@ class Login extends React.Component {
     const { email, password } = this.state;
     e.preventDefault();
     // login redirects page upon success
-    login({ email, password }).catch(err => {
-      console.log('Login Failed:', err);
-      this.setState({ errorMessage: err.message });
-    });
+    login({ email, password }).catch(err =>
+      this.setState({ errorMessage: err.message }),
+    );
   };
 
   /*
@@ -36,7 +39,9 @@ class Login extends React.Component {
    */
   render() {
     const { email, errorMessage, password } = this.state;
-    const { userIsAuthenticated } = this.props;
+    const { isProcessing, userIsAuthenticated } = this.props;
+
+    console.log('isProcessing:', isProcessing);
 
     return (
       <Layout>
@@ -48,6 +53,7 @@ class Login extends React.Component {
                 button: 'Log In',
                 email,
                 errorMessage,
+                isProcessing,
                 onChange: this.handleOnChange,
                 onSubmit: this.handleOnSubmit,
                 password,
@@ -71,6 +77,7 @@ export default compose(
   }),
   connect(
     state => ({
+      isProcessing: selectAuthIsProcessing(state),
       userIsAuthenticated: selectUserIsAuthenticated(state),
     }),
     { login },

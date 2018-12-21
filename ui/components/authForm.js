@@ -2,6 +2,7 @@ export default ({
   button,
   email,
   errorMessage,
+  isProcessing = false,
   onChange,
   onSubmit,
   password,
@@ -17,7 +18,7 @@ export default ({
         <input type="password" name="password" onChange={onChange} />
       </div>
       <div>
-        <button>{button}</button>
+        {isProcessing ? <span>Processing...</span> : <button>{button}</button>}
       </div>
       <small style={{ color: 'red' }}>{errorMessage}</small>
     </form>
