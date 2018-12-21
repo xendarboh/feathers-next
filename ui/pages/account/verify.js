@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Layout from '../../components/Layout';
 import VerifyMessage from '../../components/VerifyMessage';
 import withAuth from '../../components/withAuth';
-import { selectUserIsAuthenticated, verify } from '../../store';
+import { selectUserIsAuthed, verify } from '../../store';
 
 class Verify extends React.Component {
   static async getInitialProps({ store, query }) {
@@ -19,7 +19,7 @@ class Verify extends React.Component {
   }
 
   render() {
-    const { errorMessage, user, userIsAuthenticated } = this.props;
+    const { errorMessage, user, userIsAuthed } = this.props;
 
     const email = user ? user.email : 'unknown';
     const loginLink = (
@@ -40,7 +40,7 @@ class Verify extends React.Component {
             <p>
               Successfully verified <i>{email}</i>.
             </p>
-            {!userIsAuthenticated && <p>Please {loginLink} to continue.</p>}
+            {!userIsAuthed && <p>Please {loginLink} to continue.</p>}
           </div>
         )}
       </Layout>
@@ -51,6 +51,6 @@ class Verify extends React.Component {
 export default compose(
   withAuth({ selector: () => true }),
   connect(state => ({
-    userIsAuthenticated: selectUserIsAuthenticated(state),
+    userIsAuthed: selectUserIsAuthed(state),
   })),
 )(Verify);

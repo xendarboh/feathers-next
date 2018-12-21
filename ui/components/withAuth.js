@@ -23,10 +23,10 @@ const defaultArgs = {
   // alternative component shown while authenticating
   // set to false to disable, useful to not unmount some components while authenticating
   // default: don't render anything while authenticating
-  AuthenticatingComponent: () => null,
+  AuthingComponent: () => null,
 
   // state selector for deciding if authentication is in process
-  authenticatingSelector: selectAuthIsLoading,
+  authingSelector: selectAuthIsLoading,
 
   // path to login page
   // redirect failed auths here unless statusCode is set
@@ -45,8 +45,8 @@ const defaultArgs = {
 
 export default args => Component => {
   const {
-    AuthenticatingComponent,
-    authenticatingSelector,
+    AuthingComponent,
+    authingSelector,
     loginPath,
     selector,
     statusCode,
@@ -83,10 +83,10 @@ export default args => Component => {
 
         // authenticate server on every client request
         // authenticate client only once
-        if (isServer || !feathers.authenticated) {
+        if (isServer || !feathers.authed) {
           const accessToken = getCookie(FEATHERS_COOKIE, req);
           await store.dispatch(authenticate({ accessToken, res }));
-          feathers.authenticated = true;
+          feathers.authed = true;
         }
 
         if (!selector(store.getState()))
@@ -101,24 +101,24 @@ export default args => Component => {
         };
       }
 
-      // TODO: flash be gone!... (from AuthenticatingComponent)
+      // TODO: flash be gone!... (from AuthingComponent)
       // * without this, there is flash on client's first click of auth'd page
       // * with this, there is flash on client's first page load
       componentDidMount() {
         // authenticate client only once on initial request
-        if (!feathers.authenticated) {
+        if (!feathers.authed) {
           const accessToken = getCookie(FEATHERS_COOKIE);
           this.props.dispatch(authenticate({ accessToken }));
-          feathers.authenticated = true;
+          feathers.authed = true;
         }
       }
 
       render() {
-        const { isAuthenticating, statusCode, props } = this.props;
+        const { isAuthing, statusCode, props } = this.props;
         if (statusCode) {
           return <Error statusCode={statusCode} />;
-        } else if (isAuthenticating && AuthenticatingComponent !== false) {
-          return <AuthenticatingComponent />;
+        } else if (isAuthing && AuthingComponent !== false) {
+          return <AuthingComponent />;
         } else {
           return <Component {...props} />;
         }
@@ -126,7 +126,7 @@ export default args => Component => {
     };
 
   const mapStateToProps = state => ({
-    isAuthenticating: authenticatingSelector(state),
+    isAuthing: authingSelector(state),
   });
 
   return connect(mapStateToProps)(withAuth());

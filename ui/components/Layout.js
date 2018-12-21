@@ -4,7 +4,7 @@ import VerifyMessage from '../components/VerifyMessage';
 import {
   selectUserEmail,
   selectUserIsAdmin,
-  selectUserIsAuthenticated,
+  selectUserIsAuthed,
   selectUserIsChangePending,
   selectUserIsVerified,
   selectUserIsVerifyPending,
@@ -26,7 +26,7 @@ const Layout = ({ children, user, showVerifyMessage = true }) => (
         <b>user:</b>
       </div>
       <div>email: {user.email}</div>
-      <div>isAuthenticated: {printBool(user.isAuthenticated)}</div>
+      <div>isAuthed: {printBool(user.isAuthed)}</div>
       <div>isVerified: {printBool(user.isVerified)}</div>
       <div>isAdmin: {printBool(user.isAdmin)}</div>
       <div>isVerifyPending: {printBool(user.isVerifyPending)}</div>
@@ -39,7 +39,7 @@ const mapStateToProps = state => ({
   user: {
     email: selectUserEmail(state) || <i>undefined</i>,
     isAdmin: selectUserIsAdmin(state),
-    isAuthenticated: selectUserIsAuthenticated(state),
+    isAuthed: selectUserIsAuthed(state),
     isChangePending: selectUserIsChangePending(state),
     isVerified: selectUserIsVerified(state),
     isVerifyPending: selectUserIsVerifyPending(state),

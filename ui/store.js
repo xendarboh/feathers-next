@@ -173,7 +173,7 @@ export const selectUserEmail = state =>
 export const selectUserIsAdmin = state =>
   state.auth.user && state.auth.user.email === 'admin'; // placeholder example...
 
-export const selectUserIsAuthenticated = state => state.auth.isSignedIn;
+export const selectUserIsAuthed = state => state.auth.isSignedIn;
 
 // Note: once a change request is submitted, this is only guarenteed correct
 // after the app is reloaded / re-authed (auth.user.verifyChanges is not

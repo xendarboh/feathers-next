@@ -9,7 +9,7 @@ import {
   changePassword,
   selectAuthIsProcessing,
   selectUserEmail,
-  selectUserIsAuthenticated,
+  selectUserIsAuthed,
 } from '../../store';
 
 class ChangePassword extends React.Component {
@@ -77,7 +77,7 @@ class ChangePassword extends React.Component {
 
 export default compose(
   withAuth({
-    selector: selectUserIsAuthenticated,
+    selector: selectUserIsAuthed,
   }),
   connect(
     state => ({

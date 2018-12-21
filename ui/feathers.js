@@ -38,5 +38,5 @@ export default {
     // token: https://github.com/eddyystop/feathers-reduxify-authentication/issues/3
     token: 'accessToken', // TODO: consider not storing in state, use real-time instead?
   }),
-  authenticated: false, // used to track client-side authentication initialization
+  authed: false, // used to track client-side authentication initialization
 };

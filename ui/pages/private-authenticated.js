@@ -3,7 +3,7 @@ import { compose } from 'redux';
 import Layout from '../components/Layout';
 import feathers from '../feathers';
 import withAuth from '../components/withAuth';
-import { selectUserIsAuthenticated } from '../store';
+import { selectUserIsAuthed } from '../store';
 
 class PrivateAuthenticated extends React.Component {
   static async getInitialProps({ store }) {
@@ -40,6 +40,6 @@ class PrivateAuthenticated extends React.Component {
 
 export default compose(
   withAuth({
-    selector: selectUserIsAuthenticated,
+    selector: selectUserIsAuthed,
   }),
 )(PrivateAuthenticated);

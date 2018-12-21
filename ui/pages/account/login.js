@@ -5,11 +5,7 @@ import { connect } from 'react-redux';
 import AuthForm from '../../components/authForm';
 import Layout from '../../components/Layout';
 import withAuth from '../../components/withAuth';
-import {
-  login,
-  selectAuthIsProcessing,
-  selectUserIsAuthenticated,
-} from '../../store';
+import { login, selectAuthIsProcessing, selectUserIsAuthed } from '../../store';
 
 class Login extends React.Component {
   state = {
@@ -39,13 +35,13 @@ class Login extends React.Component {
    */
   render() {
     const { email, errorMessage, password } = this.state;
-    const { isProcessing, userIsAuthenticated } = this.props;
+    const { isProcessing, userIsAuthed } = this.props;
 
     console.log('isProcessing:', isProcessing);
 
     return (
       <Layout>
-        {!userIsAuthenticated && (
+        {!userIsAuthed && (
           <div>
             <h1>Log In</h1>
             <AuthForm
@@ -71,13 +67,13 @@ class Login extends React.Component {
 
 export default compose(
   withAuth({
-    AuthenticatingComponent: false, // avoid unmounting this component while authing
+    AuthingComponent: false, // avoid unmounting this component while authing
     selector: () => true,
   }),
   connect(
     state => ({
       isProcessing: selectAuthIsProcessing(state),
-      userIsAuthenticated: selectUserIsAuthenticated(state),
+      userIsAuthed: selectUserIsAuthed(state),
     }),
     { login },
   ),
