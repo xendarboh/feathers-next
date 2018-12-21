@@ -20,7 +20,7 @@ class AccountRecovery extends React.Component {
     const { sendResetPassword } = this.props;
     const { email } = this.state;
     e.preventDefault();
-    sendResetPassword({ email })
+    sendResetPassword({ identifyUser: { email } })
       .then(() => this.setState({ errorMessage: '', success: true }))
       .catch(err => this.setState({ errorMessage: err.message }));
   };

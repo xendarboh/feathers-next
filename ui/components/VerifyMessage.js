@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { resendVerifySignup } from '../store';
+import { resendVerify } from '../store';
 
 class VerifyMessage extends React.Component {
   state = {
@@ -9,9 +9,9 @@ class VerifyMessage extends React.Component {
   };
 
   handleResendVerify = e => {
-    const { email, resendVerifySignup } = this.props;
+    const { email, resendVerify } = this.props;
     e.preventDefault();
-    resendVerifySignup({ email })
+    resendVerify({ identifyUser: { email } })
       .then(() => this.setState({ resent: true }))
       .catch(error => this.setState({ error }));
   };
@@ -47,5 +47,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { resendVerifySignup },
+  { resendVerify },
 )(VerifyMessage);

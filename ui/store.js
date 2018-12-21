@@ -91,25 +91,25 @@ export const checkUnique = ({ identifyUser, ownId = null }) => dispatch =>
   dispatch(
     feathers.authManagement.create({
       action: 'checkUnique',
-      value: identifyUser, // example: { email, username }
+      value: identifyUser,
       ownId,
       meta: { noErrMsg: false },
     }),
   );
 
-export const resendVerifySignup = ({ email }) => dispatch =>
+export const resendVerify = ({ identifyUser }) => dispatch =>
   dispatch(
     feathers.authManagement.create({
       action: 'resendVerifySignup',
-      value: { email },
+      value: identifyUser,
     }),
   );
 
-export const sendResetPassword = ({ email }) => dispatch =>
+export const sendResetPassword = ({ identifyUser }) => dispatch =>
   dispatch(
     feathers.authManagement.create({
       action: 'sendResetPwd',
-      value: { email },
+      value: identifyUser,
     }),
   );
 
@@ -117,12 +117,15 @@ export const resetPassword = ({ token, password }) => dispatch =>
   dispatch(
     feathers.authManagement.create({
       action: 'resetPwdLong',
-      value: { token, password },
+      value: {
+        password,
+        token,
+      },
     }),
   );
 
 export const changePassword = ({
-  email,
+  identifyUser,
   currentPassword,
   password,
 }) => dispatch =>
@@ -130,7 +133,7 @@ export const changePassword = ({
     feathers.authManagement.create({
       action: 'passwordChange',
       value: {
-        user: { email },
+        user: identifyUser,
         oldPassword: currentPassword,
         password,
       },
@@ -138,13 +141,17 @@ export const changePassword = ({
   );
 
 // makes a request for changes that requires verification
-export const changeIdentity = ({ email, password, changes }) => dispatch =>
+export const changeIdentity = ({
+  identifyUser,
+  password,
+  changes,
+}) => dispatch =>
   dispatch(checkUnique({ identifyUser: { ...changes } })).then(() =>
     dispatch(
       feathers.authManagement.create({
         action: 'identityChange',
         value: {
-          user: { email },
+          user: identifyUser,
           password,
           changes,
         },

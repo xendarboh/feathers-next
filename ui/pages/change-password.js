@@ -31,7 +31,11 @@ class ChangePassword extends React.Component {
       return;
     }
 
-    changePassword({ email, currentPassword, password })
+    changePassword({
+      identifyUser: { email },
+      currentPassword,
+      password,
+    })
       .then(result => this.setState({ errorMessage: '', success: true }))
       .catch(err => this.setState({ errorMessage: err.message }));
   };

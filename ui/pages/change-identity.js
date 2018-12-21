@@ -22,7 +22,11 @@ class ChangeIdentity extends React.Component {
     const { changeIdentity } = this.props;
     const { email, password } = this.state;
     e.preventDefault();
-    changeIdentity({ email: this.props.email, password, changes: { email } })
+    changeIdentity({
+      identifyUser: { email: this.props.email },
+      password,
+      changes: { email },
+    })
       .then(result => this.setState({ errorMessage: '', success: true }))
       .catch(err => this.setState({ errorMessage: err.message }));
   };
