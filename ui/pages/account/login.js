@@ -19,7 +19,7 @@ class Login extends React.Component {
   };
 
   handleOnChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
+    this.setState({ [e.target.name]: e.target.value, errorMessage: '' });
   };
 
   handleOnSubmit = e => {
@@ -71,8 +71,7 @@ class Login extends React.Component {
 
 export default compose(
   withAuth({
-    // avoid unmounting this login component while authenticating
-    AuthenticatingComponent: false,
+    AuthenticatingComponent: false, // avoid unmounting this component while authing
     selector: () => true,
   }),
   connect(

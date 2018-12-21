@@ -20,7 +20,7 @@ class ChangeIdentity extends React.Component {
   };
 
   handleOnChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
+    this.setState({ [e.target.name]: e.target.value, errorMessage: '' });
   };
 
   handleOnSubmit = e => {
