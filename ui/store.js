@@ -1,7 +1,7 @@
 import Router from 'next/router';
-import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import promiseMiddleware from 'redux-promise-middleware';
+import { createPromise } from 'redux-promise-middleware';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import feathers from './feathers';
 import { removeCookie, setCookie } from './lib/session';
@@ -25,7 +25,7 @@ export const initStore = (initialState = exampleInitialState) => {
       users: feathers.users.reducer,
     }),
     initialState,
-    composeWithDevTools(applyMiddleware(thunkMiddleware, promiseMiddleware())),
+    composeWithDevTools(applyMiddleware(thunkMiddleware, createPromise({}))),
   );
 };
 

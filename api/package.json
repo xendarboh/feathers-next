@@ -46,7 +46,7 @@
     "cross-env": "^5.2.0",
     "feathers-authentication-management": "^2.0.1",
     "feathers-hooks-common": "^4.19.4",
-    "feathers-nedb": "^4.0.0",
+    "feathers-nedb": "^5.0.1",
     "helmet": "^3.13.0",
     "lodash.merge": "^4.6.1",
     "nedb": "^1.8.0",
@@ -54,7 +54,7 @@
     "winston": "^3.0.0"
   },
   "devDependencies": {
-    "@feathers-plus/cli": "^0.7.71",
+    "@feathers-plus/cli": "^0.8.10",
     "eslint": "^5.3.0",
     "mocha": "^5.2.0",
     "nodemon": "^1.18.3",

@@ -11,7 +11,10 @@ let ifSeedServices = ['--seed', '-s'].some(str => process.argv.slice(2).includes
 // Determine if environment allows test to mutate existing DB data.
 function areDbChangesAllowed(testConfig) {
   let { environmentsAllowingSeedData = [] } = testConfig;
-  return environmentsAllowingSeedData.includes(process.env.NODE_ENV);
+  if (process.env.NODE_ENV) {
+    return environmentsAllowingSeedData.includes(process.env.NODE_ENV);
+  }
+  return false;
 }
 
 // Get generated fake data
