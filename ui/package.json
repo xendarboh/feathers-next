@@ -11,26 +11,26 @@
     "start": "NODE_ENV=production node server.js"
   },
   "dependencies": {
-    "@feathersjs/authentication-client": "^1.0.2",
-    "@feathersjs/feathers": "^3.1.0",
-    "@feathersjs/socketio-client": "^1.0.2",
-    "express": "^4.15.2",
+    "@feathersjs/authentication-client": "^1.0.11",
+    "@feathersjs/feathers": "^3.3.1",
+    "@feathersjs/socketio-client": "^1.2.1",
+    "express": "^4.17.1",
     "feathers-redux": "^3.0.0",
     "feathers-reduxify-authentication": "^1.0.1",
     "js-cookie": "^2.2.0",
-    "next": "^7.0.2",
-    "next-redux-wrapper": "^2.1.0",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "react-redux": "^6.0.0",
-    "redux": "^4.0.1",
-    "redux-actions": "^2.6.4",
-    "redux-devtools-extension": "^2.13.2",
-    "redux-promise-middleware": "^5.1.1",
-    "redux-thunk": "^2.1.0",
-    "socket.io-client": "^2.1.1"
+    "next": "^9.0.0",
+    "next-redux-wrapper": "^3.0.0-alpha.3",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-redux": "^7.1.0",
+    "redux": "^4.0.4",
+    "redux-actions": "^2.6.5",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-promise-middleware": "^6.1.1",
+    "redux-thunk": "^2.3.0",
+    "socket.io-client": "^2.2.0"
   },
   "devDependencies": {
-    "prettier": "^1.15.2"
+    "prettier": "^1.18.2"
   }
 }
